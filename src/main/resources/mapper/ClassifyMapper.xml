@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.dao.ClassifyMapper">
+  <resultMap id="BaseResultMap" type="com.wang.pojo.Classify">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="IssueInfo_id" jdbcType="INTEGER" property="issueinfoId" />
+    <result column="Significance" jdbcType="INTEGER" property="significance" />
+    <result column="Quality" jdbcType="INTEGER" property="quality" />
+    <result column="Component" jdbcType="INTEGER" property="component" />
+    <result column="Consequence" jdbcType="INTEGER" property="consequence" />
+    <result column="Code" jdbcType="INTEGER" property="code" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, IssueInfo_id, Significance, Quality, Component, Consequence, Code
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Classify
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from Classify
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wang.pojo.Classify">
+    insert into Classify (id, IssueInfo_id, Significance, 
+      Quality, Component, Consequence, 
+      Code)
+    values (#{id,jdbcType=INTEGER}, #{issueinfoId,jdbcType=INTEGER}, #{significance,jdbcType=INTEGER}, 
+      #{quality,jdbcType=INTEGER}, #{component,jdbcType=INTEGER}, #{consequence,jdbcType=INTEGER}, 
+      #{code,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wang.pojo.Classify">
+    insert into Classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="issueinfoId != null">
+        IssueInfo_id,
+      </if>
+      <if test="significance != null">
+        Significance,
+      </if>
+      <if test="quality != null">
+        Quality,
+      </if>
+      <if test="component != null">
+        Component,
+      </if>
+      <if test="consequence != null">
+        Consequence,
+      </if>
+      <if test="code != null">
+        Code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="issueinfoId != null">
+        #{issueinfoId,jdbcType=INTEGER},
+      </if>
+      <if test="significance != null">
+        #{significance,jdbcType=INTEGER},
+      </if>
+      <if test="quality != null">
+        #{quality,jdbcType=INTEGER},
+      </if>
+      <if test="component != null">
+        #{component,jdbcType=INTEGER},
+      </if>
+      <if test="consequence != null">
+        #{consequence,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wang.pojo.Classify">
+    update Classify
+    <set>
+      <if test="issueinfoId != null">
+        IssueInfo_id = #{issueinfoId,jdbcType=INTEGER},
+      </if>
+      <if test="significance != null">
+        Significance = #{significance,jdbcType=INTEGER},
+      </if>
+      <if test="quality != null">
+        Quality = #{quality,jdbcType=INTEGER},
+      </if>
+      <if test="component != null">
+        Component = #{component,jdbcType=INTEGER},
+      </if>
+      <if test="consequence != null">
+        Consequence = #{consequence,jdbcType=INTEGER},
+      </if>
+      <if test="code != null">
+        Code = #{code,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wang.pojo.Classify">
+    update Classify
+    set IssueInfo_id = #{issueinfoId,jdbcType=INTEGER},
+      Significance = #{significance,jdbcType=INTEGER},
+      Quality = #{quality,jdbcType=INTEGER},
+      Component = #{component,jdbcType=INTEGER},
+      Consequence = #{consequence,jdbcType=INTEGER},
+      Code = #{code,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

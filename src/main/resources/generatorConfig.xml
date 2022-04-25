@@ -50,7 +50,11 @@
         <table tableName="Classify" domainObjectName="Classify" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="IssueInfo" domainObjectName="IssueInfo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="Label" domainObjectName="Label" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table tableName="Research" domainObjectName="Research" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table tableName="Research" domainObjectName="Research" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+            <columnOverride column="Cause" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="Impact" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="Link" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </table>
 
     </context>
 </generatorConfiguration>

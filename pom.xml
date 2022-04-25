@@ -167,6 +167,12 @@
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>${bybatis-generator.version}</version>
+                <configuration>
+                    <!--  mybatis-generator 配置路径  -->
+                    <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+                    <!-- 多次生成时允许覆盖 -->
+                    <overwrite>true</overwrite>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>mysql</groupId>

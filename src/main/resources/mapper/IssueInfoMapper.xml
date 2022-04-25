@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.dao.IssueInfoMapper">
+  <resultMap id="BaseResultMap" type="com.wang.pojo.IssueInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="Project" jdbcType="CHAR" property="project" />
+    <result column="IssueType" jdbcType="CHAR" property="issuetype" />
+    <result column="IssueKey" jdbcType="CHAR" property="issuekey" />
+    <result column="Priority" jdbcType="CHAR" property="priority" />
+    <result column="Status" jdbcType="CHAR" property="status" />
+    <result column="Resolution" jdbcType="CHAR" property="resolution" />
+    <result column="CreatedTime" jdbcType="CHAR" property="createdtime" />
+    <result column="UpdateTime" jdbcType="CHAR" property="updatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.wang.pojo.IssueInfo">
+    <result column="Summary" jdbcType="LONGVARCHAR" property="summary" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, Project, IssueType, IssueKey, Priority, `Status`, Resolution, CreatedTime, UpdateTime
+  </sql>
+  <sql id="Blob_Column_List">
+    Summary
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from IssueInfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from IssueInfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wang.pojo.IssueInfo">
+    insert into IssueInfo (id, Project, IssueType, 
+      IssueKey, Priority, `Status`, 
+      Resolution, CreatedTime, UpdateTime, 
+      Summary)
+    values (#{id,jdbcType=INTEGER}, #{project,jdbcType=CHAR}, #{issuetype,jdbcType=CHAR}, 
+      #{issuekey,jdbcType=CHAR}, #{priority,jdbcType=CHAR}, #{status,jdbcType=CHAR}, 
+      #{resolution,jdbcType=CHAR}, #{createdtime,jdbcType=CHAR}, #{updatetime,jdbcType=CHAR}, 
+      #{summary,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wang.pojo.IssueInfo">
+    insert into IssueInfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="project != null">
+        Project,
+      </if>
+      <if test="issuetype != null">
+        IssueType,
+      </if>
+      <if test="issuekey != null">
+        IssueKey,
+      </if>
+      <if test="priority != null">
+        Priority,
+      </if>
+      <if test="status != null">
+        `Status`,
+      </if>
+      <if test="resolution != null">
+        Resolution,
+      </if>
+      <if test="createdtime != null">
+        CreatedTime,
+      </if>
+      <if test="updatetime != null">
+        UpdateTime,
+      </if>
+      <if test="summary != null">
+        Summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="project != null">
+        #{project,jdbcType=CHAR},
+      </if>
+      <if test="issuetype != null">
+        #{issuetype,jdbcType=CHAR},
+      </if>
+      <if test="issuekey != null">
+        #{issuekey,jdbcType=CHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="resolution != null">
+        #{resolution,jdbcType=CHAR},
+      </if>
+      <if test="createdtime != null">
+        #{createdtime,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        #{updatetime,jdbcType=CHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wang.pojo.IssueInfo">
+    update IssueInfo
+    <set>
+      <if test="project != null">
+        Project = #{project,jdbcType=CHAR},
+      </if>
+      <if test="issuetype != null">
+        IssueType = #{issuetype,jdbcType=CHAR},
+      </if>
+      <if test="issuekey != null">
+        IssueKey = #{issuekey,jdbcType=CHAR},
+      </if>
+      <if test="priority != null">
+        Priority = #{priority,jdbcType=CHAR},
+      </if>
+      <if test="status != null">
+        `Status` = #{status,jdbcType=CHAR},
+      </if>
+      <if test="resolution != null">
+        Resolution = #{resolution,jdbcType=CHAR},
+      </if>
+      <if test="createdtime != null">
+        CreatedTime = #{createdtime,jdbcType=CHAR},
+      </if>
+      <if test="updatetime != null">
+        UpdateTime = #{updatetime,jdbcType=CHAR},
+      </if>
+      <if test="summary != null">
+        Summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.wang.pojo.IssueInfo">
+    update IssueInfo
+    set Project = #{project,jdbcType=CHAR},
+      IssueType = #{issuetype,jdbcType=CHAR},
+      IssueKey = #{issuekey,jdbcType=CHAR},
+      Priority = #{priority,jdbcType=CHAR},
+      `Status` = #{status,jdbcType=CHAR},
+      Resolution = #{resolution,jdbcType=CHAR},
+      CreatedTime = #{createdtime,jdbcType=CHAR},
+      UpdateTime = #{updatetime,jdbcType=CHAR},
+      Summary = #{summary,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wang.pojo.IssueInfo">
+    update IssueInfo
+    set Project = #{project,jdbcType=CHAR},
+      IssueType = #{issuetype,jdbcType=CHAR},
+      IssueKey = #{issuekey,jdbcType=CHAR},
+      Priority = #{priority,jdbcType=CHAR},
+      `Status` = #{status,jdbcType=CHAR},
+      Resolution = #{resolution,jdbcType=CHAR},
+      CreatedTime = #{createdtime,jdbcType=CHAR},
+      UpdateTime = #{updatetime,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

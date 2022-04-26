@@ -95,13 +95,12 @@
             <version>${hibernate-validator}</version>
         </dependency>
 
-        <!--logback日志-->
+        <!-- 记录型日志框架：logback  门面性日志框架：slf4j -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback-classic.version}</version>
         </dependency>
-
 
 <!--        &lt;!&ndash;文件上传&ndash;&gt;-->
 <!--        <dependency>-->

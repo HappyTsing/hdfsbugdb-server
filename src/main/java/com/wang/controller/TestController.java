@@ -29,6 +29,5 @@ public class TestController {
     public IssueInfo test3(){
         System.out.println("进入了db");
         return issueInfoService.getdata();
-
     }
 }

@@ -21,6 +21,6 @@
 │       ├── spring-mybatis.xml
 │       ├── spring-service.xml
 │       └── springmvc-servlet.xml
-└── test
+└── com.wang.test
     └── java
 ```

@@ -10,7 +10,17 @@
 
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-service.xml"/>
-    <import resource="springmvc-servlet.xml"/>
+
+<!--    applicationContext.xml文件在web.xml中被应用，为spring的配置
+        而springmvc-servlet.xml文件也在web.xml中被应用，为springmvc的配置
+        上述两个文件在web.xml中配置在不同的地方
+        因此applicationContext.xml中不重复导入springmvc-servlet.xml
+        而其他所有的配置文件都会在此导入。
+
+        注意：还有一种写法是，不创建applicContext.xml作为汇总文件。
+        所有spring的配置都以spring-开头，然后在web.xml中导入的时候使用：classpath:spring-* 的形式即可
+-->
+<!--    <import resource="springmvc-servlet.xml"/>-->
 
 
 </beans>

@@ -17,16 +17,27 @@
 
     <!-- 3.配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 注入数据库源 -->
+        <!-- ①注入数据库源 -->
         <property name="dataSource" ref="dataSource"/>
+
+        <!-- ②代替mybatis-config中的映射器配置 mapper/** 指代mapper下面的全部路径-->
+        <property name="mapperLocations" value="classpath*:mapper/**/*xml"/>
+
         <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
+        <!-- mybatis-config.xml主要用于配置： -->
+        <!-- ①数据库和数据库连接池 √ 已配置
+             ②<mappers> XxxMapper.xml √ 已配置
+              综上所述：完全不需要该文件，因此可以注释掉！-->
+
 <!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
-        <!-- 代替mybatis-config中的映射器配置 mapper/** 指代mapper下面的全部路径 -->
-<!--        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>-->
     </bean>
 
-    <!-- 4.配置扫描Dao接口包，动态实现Dao接口注入到spring容器中 -->
-    <!--解释 ：https://www.cnblogs.com/jpfss/p/7799806.html-->
+    <!-- 4.配置扫描Dao接口包，动态实现Dao接口注册到spring容器中 -->
+    <!--解释：https://www.cnblogs.com/jpfss/p/7799806.html-->
+
+    <!--注意：由于在此处已经完成了Dao接口的注册，因此无需再其他地方注册：
+                ①XML方式：类似于spring-dao.xml文件中注册Dao的接口类
+                ②注解方式：在如dao/LabelMapper.java接口文件中使用@Repository注解-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

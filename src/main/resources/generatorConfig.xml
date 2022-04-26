@@ -4,8 +4,6 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
 
-    <!-- 本地数据库驱动程序jar包的全路径 -->
-<!--    <classPathEntry location="/Users/hongweiyin/Documents/github-workspace/music-website/music-server/src/main/resources/mysql-connector-java-8.0.13.jar"/>-->
     <properties resource="db.properties"/>
     <context id="context" targetRuntime="MyBatis3">
 
@@ -51,6 +49,7 @@
         <table tableName="IssueInfo" domainObjectName="IssueInfo" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="Label" domainObjectName="Label" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
         <table tableName="Research" domainObjectName="Research" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+            <!--  表中有text的类型的数据的时候，会同时出现Research和ResearchWithBLOBs类，将这些数据转化为varchar即不会出现 -->
             <columnOverride column="Cause" javaType="java.lang.String" jdbcType="VARCHAR" />
             <columnOverride column="Impact" javaType="java.lang.String" jdbcType="VARCHAR" />
             <columnOverride column="Link" javaType="java.lang.String" jdbcType="VARCHAR" />

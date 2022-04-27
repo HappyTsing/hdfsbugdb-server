@@ -15,6 +15,11 @@
     from Label
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from Label
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from Label
     where id = #{id,jdbcType=INTEGER}

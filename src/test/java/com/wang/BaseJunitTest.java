@@ -21,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class BaseJunitTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        System.out.println("======================================================================单元测试开始=====================================================================");
+        System.out.println("================================================单元测试开始================================================");
     }
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
-        System.out.println("======================================================================单元测试结束=====================================================================");
+        System.out.println("================================================单元测试结束================================================");
     }
 }

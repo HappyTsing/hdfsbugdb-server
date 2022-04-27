@@ -1,18 +1,14 @@
 package com.wang.controller;
 
-import com.wang.dto.Issues;
 import com.wang.dto.Result;
-import com.wang.pojo.IssueInfo;
-import com.wang.service.impl.IssueInfoServiceImpl;
+import com.wang.service.ClassifyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -20,21 +16,23 @@ public class APIController {
     private static  final Logger logger = LoggerFactory.getLogger(APIController.class);
 
     @Autowired
-    private IssueInfoServiceImpl issueInfoService;
+    private ClassifyService classifyService;
 
 
 
     @GetMapping ("/classify")
-    public String classify(){
-        logger.info("Enter APIController/classify");
-        return "hello";
+    public Result classify(){
+        try{
+            Map<String, Map<String, Integer>> map = classifyService.getClassify();
+            return new Result(HttpStatus.OK,map);
+        }catch (Exception e){
+            return new Result(HttpStatus.INTERNAL_SERVER_ERROR,e.toString());
+        }
     }
 
-
-    @GetMapping("/issues/{pagesize}/{pagenum}")
-    public Result<Issues> issues(@PathVariable(value="pagesize") String pagesize, @PathVariable(value="pagenum") String pagenum){
-        logger.info("Enter APIController/issues");
-
-        return  new Result<Issues>(HttpStatus.OK,new Issues("1","quality",200));
-    }
+//    @GetMapping("/issues/{pagesize}/{pagenum}")
+//    public Result<Map> issues(@PathVariable(value="pagesize") String pagesize, @PathVariable(value="pagenum") String pagenum){
+//        logger.info("Enter APIController/issues");
+//        return  new Result<Map>(HttpStatus.OK,new Issues("1","quality",200));
+//    }
 }

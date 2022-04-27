@@ -19,6 +19,22 @@
     from Classify
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="getQuality" resultType="map">
+    SELECT Quality as type,count(*) as count from Classify where Quality is not null group by Quality
+  </select>
+  <select id="getComponent" resultType="map">
+    SELECT Component as type,count(*) as count from Classify where Component is not null group by Component
+  </select>
+  <select id="getConsequence" resultType="map">
+    SELECT Consequence as type,count(*) as count from Classify where Consequence is not null group by Consequence
+  </select>
+  <select id="getCode" resultType="map">
+    SELECT Code as type ,count(*) as count from Classify where Code is not null group by Code
+  </select>
+  <select id="getSignificance" resultType="map">
+    SELECT Significance as type ,count(*) as count from Classify where Significance is not null group by Significance
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from Classify
     where id = #{id,jdbcType=INTEGER}

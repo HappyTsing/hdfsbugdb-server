@@ -35,6 +35,12 @@
   <select id="getSignificance" resultType="map">
     SELECT Significance as type ,count(*) as count from Classify where Significance is not null group by Significance
   </select>
+
+  <select id="vitalCount" resultType="Integer">
+    -- Vital 1
+    select count(*) as vitalCount from Classify where Significance=1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from Classify
     where id = #{id,jdbcType=INTEGER}

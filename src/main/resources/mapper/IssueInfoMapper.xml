@@ -29,6 +29,31 @@
     from IssueInfo
     where id = #{id,jdbcType=INTEGER}
   </select>
+
+  <select id="pageQuery" resultType="map">
+    select
+      I.Project,
+      I.IssueType,
+      I.Summary,
+      I.Priority,
+      I.Status,
+      I.Resolution,
+      I.CreatedTime,
+      I.UpdateTime,
+      C.Significance,
+      C.Quality,
+      C.Component,
+      C.Consequence,
+      C.Code,
+      R.id,
+      R.Cause,
+      R.Impact,
+      R.Link
+    from IssueInfo I join Classify C on I.id = C.IssueInfo_id
+                     join Research R  on I.id = R.IssueInfo_id
+      LIMIT #{limit} OFFSET #{offset} ;
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from IssueInfo
     where id = #{id,jdbcType=INTEGER}

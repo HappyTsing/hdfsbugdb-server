@@ -4,6 +4,7 @@ import com.wang.dao.ClassifyMapper;
 import com.wang.dao.LabelMapper;
 import com.wang.pojo.Label;
 import com.wang.service.ClassifyService;
+import com.wang.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,20 +18,11 @@ public class ClassifyServiceImpl implements ClassifyService {
     private ClassifyMapper classifyMapper;
 
     @Autowired
-    private LabelMapper labelMapper;
+    private LabelService labelService;
 
-    public HashMap<Integer,String> getLabelMap(){
-        List<Label> list = labelMapper.findAll();
-        HashMap<Integer,String> labelMap = new HashMap<>();
-        for(Label label : list){
-            labelMap.put(label.getId(),label.getName());
-        }
-        return labelMap;
-    }
+    private Map<String, Integer> getClassifyType(String type) throws Exception {
 
-    public Map<String, Integer> getClassifyType(String type) throws Exception {
-
-        HashMap<Integer,String> labelMap = getLabelMap();
+        HashMap<Integer,String> labelMap = labelService.getLabelMap();
         List<Map<String,Object>> list;
         switch(type){
             case "Quality":
@@ -87,4 +79,10 @@ public class ClassifyServiceImpl implements ClassifyService {
         return map;
 
     }
+
+    @Override
+    public Integer vitalCount() {
+        return classifyMapper.vitalCount();
+    }
+
 }

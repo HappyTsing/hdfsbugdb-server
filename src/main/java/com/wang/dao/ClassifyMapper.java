@@ -23,4 +23,7 @@ public interface ClassifyMapper {
     List<Map<String,Object>> getConsequence();
     List<Map<String,Object>> getCode();
     List<Map<String,Object>> getSignificance();
+
+    int vitalCount();
+
 }

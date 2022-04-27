@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface ClassifyService {
     Map<String, Map<String, Integer>> getClassify() throws Exception;
+    Integer vitalCount();
+
 }

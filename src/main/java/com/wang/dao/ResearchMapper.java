@@ -14,4 +14,6 @@ public interface ResearchMapper {
     int updateByPrimaryKeySelective(Research row);
 
     int updateByPrimaryKey(Research row);
+
+
 }

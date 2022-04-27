@@ -100,4 +100,20 @@ public class IssueInfo {
     public void setSummary(String summary) {
         this.summary = summary == null ? null : summary.trim();
     }
+
+    @Override
+    public String toString() {
+        return "IssueInfo{" +
+                "id=" + id +
+                ", project='" + project + '\'' +
+                ", issuetype='" + issuetype + '\'' +
+                ", issuekey='" + issuekey + '\'' +
+                ", priority='" + priority + '\'' +
+                ", status='" + status + '\'' +
+                ", resolution='" + resolution + '\'' +
+                ", createdtime='" + createdtime + '\'' +
+                ", updatetime='" + updatetime + '\'' +
+                ", summary='" + summary + '\'' +
+                '}';
+    }
 }

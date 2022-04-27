@@ -70,4 +70,17 @@ public class Classify {
     public void setCode(Integer code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "Classify{" +
+                "id=" + id +
+                ", issueinfoId=" + issueinfoId +
+                ", significance=" + significance +
+                ", quality=" + quality +
+                ", component=" + component +
+                ", consequence=" + consequence +
+                ", code=" + code +
+                '}';
+    }
 }

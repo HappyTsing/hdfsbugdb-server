@@ -30,4 +30,13 @@ public class Label {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Label{" +
+                "id=" + id +
+                ", category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

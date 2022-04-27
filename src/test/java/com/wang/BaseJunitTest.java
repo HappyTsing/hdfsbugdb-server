@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:spring-service.xml", "classpath:spring-mybatis.xml" })
 public class BaseJunitTest {
-
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         System.out.println("======================================================================单元测试开始=====================================================================");
@@ -28,7 +27,4 @@ public class BaseJunitTest {
     public static void tearDownAfterClass() throws Exception {
         System.out.println("======================================================================单元测试结束=====================================================================");
     }
-
-
-
 }

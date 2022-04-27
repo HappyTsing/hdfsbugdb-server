@@ -50,4 +50,15 @@ public class Research {
     public void setLink(String link) {
         this.link = link == null ? null : link.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Research{" +
+                "id=" + id +
+                ", issueinfoId=" + issueinfoId +
+                ", cause='" + cause + '\'' +
+                ", impact='" + impact + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
 }

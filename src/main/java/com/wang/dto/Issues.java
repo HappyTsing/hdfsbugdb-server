@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 使用lombok的@Data注解生成get、set、toString、equals、hashCode等方法
@@ -23,12 +24,4 @@ public class Issues {
     Integer pageNum;
     Integer sum;
     List data;
-
-    public Issues(Integer total, Integer pageSize, Integer pageNum, Integer sum, List data) {
-        this.total = total;
-        this.pageSize = pageSize;
-        this.pageNum = pageNum;
-        this.sum = sum;
-        this.data = data;
-    }
 }

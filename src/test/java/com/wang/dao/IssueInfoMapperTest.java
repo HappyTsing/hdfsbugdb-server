@@ -31,6 +31,8 @@ public class IssueInfoMapperTest extends BaseJunitTest {
                 }
             }
         }
+        Set columns = list.get(1).keySet();
+        System.out.println(columns);
 
     }
 }

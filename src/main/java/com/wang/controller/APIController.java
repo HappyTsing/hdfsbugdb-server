@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -45,12 +46,19 @@ public class APIController {
     @GetMapping("/issues/{pagesize}/{pagenum}")
     public Result<Issues> issues(@PathVariable(value="pagesize") Integer pagesize, @PathVariable(value="pagenum") Integer pagenum){
         logger.info("Enter APIController/issues");
-
-
+        Issues issues = new Issues();
         List<Map<String,Object>> list=issueInfoService.pageQueryByNum(pagesize,pagenum);
-        Integer vitalCount = classifyService.vitalCount();
         Integer sum = list.size();
-        Issues issues = new Issues(vitalCount,pagesize,pagenum, sum,list);
+        issues.setSum(sum);
+        issues.setPageNum(pagenum);
+        issues.setPageSize(pagesize);
+        issues.setData(list);
+        if(pagenum==1){
+            Integer vitalCount = classifyService.vitalCount();
+            issues.setTotal(vitalCount);
+        }
+
+
         return  new Result<Issues>(HttpStatus.OK,issues);
     }
 }

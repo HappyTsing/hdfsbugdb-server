@@ -34,6 +34,7 @@
     select
       I.Project,
       I.IssueType,
+      I.IssueKey,
       I.Summary,
       I.Priority,
       I.Status,

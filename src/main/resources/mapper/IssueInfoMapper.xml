@@ -24,8 +24,6 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from IssueInfo
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -55,6 +53,59 @@
       LIMIT #{limit} OFFSET #{offset} ;
   </select>
 
+  <select id="queryByValue" resultType="map">
+    select
+      I.Project,
+      I.IssueType,
+      I.IssueKey,
+      I.Summary,
+      I.Priority,
+      I.Status,
+      I.Resolution,
+      I.CreatedTime,
+      I.UpdateTime,
+      C.Significance,
+      C.Quality,
+      C.Component,
+      C.Consequence,
+      C.Code,
+      R.id,
+      R.Cause,
+      R.Impact,
+      R.Link
+    from IssueInfo I join Classify C on I.id = C.IssueInfo_id
+                     join Research R  on I.id = R.IssueInfo_id
+
+    <choose>
+      <when test='searchType=="IssueKey"'>
+        where I.IssueKey = #{searchValue}
+      </when>
+      <when test='searchType=="Quality"'>
+        where C.Quality = #{searchValue}
+      </when>
+
+      <when test='searchType=="Component"'>
+        where C.Component = #{searchValue}
+      </when>
+
+      <when test='searchType=="Consequence"'>
+        where C.Consequence = #{searchValue}
+      </when>
+
+      <when test='searchType=="Code"'>
+        where C.Code = #{searchValue}
+      </when>
+
+      <when test='searchType=="ResearchId"'>
+        where R.id = #{searchValue}
+      </when>
+      <otherwise>
+        limit 0
+      </otherwise>
+    </choose>
+    LIMIT #{limit} OFFSET #{offset} ;
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from IssueInfo
     where id = #{id,jdbcType=INTEGER}

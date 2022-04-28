@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,9 +44,8 @@ public class APIController {
     }
 
 
-    @GetMapping("/issues/{pagesize}/{pagenum}")
-    public Result<Issues> issues(@PathVariable(value="pagesize") Integer pagesize, @PathVariable(value="pagenum") Integer pagenum){
-        logger.info("Enter APIController/issues");
+    @GetMapping("/issues/all/{pagesize}/{pagenum}")
+    public Result<Issues> getAllIssues(@PathVariable(value="pagesize") Integer pagesize, @PathVariable(value="pagenum") Integer pagenum){
         Issues issues = new Issues();
         List<Map<String,Object>> list=issueInfoService.pageQueryByNum(pagesize,pagenum);
         Integer sum = list.size();
@@ -58,6 +58,41 @@ public class APIController {
             issues.setTotal(vitalCount);
         }
 
+
+        return  new Result<Issues>(HttpStatus.OK,issues);
+    }
+
+    @GetMapping("/issues/search/{pagesize}/{pagenum}/{searchType}/{searchValue}")
+    public Result<Issues> getIssueByIssueKey(@PathVariable(value="pagesize") Integer pagesize, @PathVariable(value="pagenum") Integer pagenum,@PathVariable(value="searchType") String searchType,@PathVariable(value="searchValue") String searchValue){
+        Issues issues = new Issues();
+
+        int sum;
+        List<Map<String,Object>> data;
+        /**
+         * 第一次获取时，为了拿到total，先查询所有的内容。传入MAX_SIZE，由于数据库一共只有381条数据，因此可以查询到所有的数据。
+         */
+        if(pagenum==1){
+            Integer MAX_SIZE = 500;
+            List<Map<String,Object>> list=issueInfoService.queryByValue(MAX_SIZE,pagenum,searchType,searchValue);
+            Integer total = list.size();
+            issues.setTotal(total);
+
+            if(total < pagesize){
+                sum = total;
+                data = list;
+            }else{
+                sum = pagesize;
+                data = list.subList(0,pagesize-1);
+            }
+        }else {
+            List<Map<String,Object>> list=issueInfoService.queryByValue(pagesize,pagenum,searchType,searchValue);
+            sum = list.size();
+            data = list;
+        }
+        issues.setSum(sum);
+        issues.setPageNum(pagenum);
+        issues.setPageSize(pagesize);
+        issues.setData(data);
 
         return  new Result<Issues>(HttpStatus.OK,issues);
     }

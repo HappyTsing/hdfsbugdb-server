@@ -3,10 +3,8 @@ package com.wang;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 注解说明：
@@ -17,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 使用方法：此后所有的类，只需要 public class className extends BaseJunitTest{} 即可进行单元测试使用注解，无需重复添加@RunWith等注解了。
  */
 @RunWith(value = SpringJUnit4ClassRunner.class)
-@ContextConfiguration({ "classpath:spring-service.xml", "classpath:spring-mybatis.xml" })
+//@ContextConfiguration({"classpath:spring/spring-service.xml", "classpath:spring/spring-mybatis.xml","classpath:spring/spring-redis.xml"})
+@ContextConfiguration({"classpath:spring/applicationContext.xml"})
 public class BaseJunitTest {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {

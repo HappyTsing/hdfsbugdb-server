@@ -8,6 +8,7 @@ import com.wang.service.IssueInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +29,11 @@ public class APIController {
 
     @Autowired
     private ClassifyService classifyService;
+
     @Autowired
     private IssueInfoService issueInfoService;
+
+
 
 
 
@@ -82,7 +86,7 @@ public class APIController {
                 data = list;
             }else{
                 sum = pagesize;
-                data = list.subList(0,pagesize-1);
+                data = list.subList(0,pagesize);
             }
         }else {
             List<Map<String,Object>> list=issueInfoService.queryByValue(pagesize,pagenum,searchType,searchValue);
@@ -93,7 +97,6 @@ public class APIController {
         issues.setPageNum(pagenum);
         issues.setPageSize(pagesize);
         issues.setData(data);
-
         return  new Result<Issues>(HttpStatus.OK,issues);
     }
 }

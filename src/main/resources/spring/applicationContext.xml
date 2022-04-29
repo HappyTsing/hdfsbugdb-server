@@ -6,10 +6,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <context:property-placeholder location="classpath:properties/*.properties"/>
 
 
     <import resource="spring-mybatis.xml"/>
     <import resource="spring-service.xml"/>
+    <import resource="spring-redis.xml"/>
 
 <!--    applicationContext.xml文件在web.xml中被应用，为spring的配置
         而springmvc-servlet.xml文件也在web.xml中被应用，为springmvc的配置
@@ -19,6 +21,10 @@
 
         注意：还有一种写法是，不创建applicContext.xml作为汇总文件。
         所有spring的配置都以spring-开头，然后在web.xml中导入的时候使用：classpath:spring-* 的形式即可
+
+        updata：但是，当你拥有多个 .properties 文件时，还是推荐使用这种方法！因为只能导入一次！
+                因此，我们导入时，需要使用 *.properties，而不是分开导入。
+                当然，你也可以使用 *.properties 的方式导入到spring-redis.xml或spring-mybatis.xml中，但这样看起来不优雅。
 -->
 <!--    <import resource="springmvc-servlet.xml"/>-->
 

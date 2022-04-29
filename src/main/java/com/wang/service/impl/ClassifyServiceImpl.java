@@ -1,8 +1,6 @@
 package com.wang.service.impl;
 
 import com.wang.dao.ClassifyMapper;
-import com.wang.dao.LabelMapper;
-import com.wang.pojo.Label;
 import com.wang.service.ClassifyService;
 import com.wang.service.LabelService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +10,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 @Service
 public class ClassifyServiceImpl implements ClassifyService {
     @Autowired
     private ClassifyMapper classifyMapper;
-
+    
     @Autowired
     private LabelService labelService;
 
     private Map<String, Integer> getClassifyType(String type) throws Exception {
 
-        HashMap<Integer,String> labelMap = labelService.getLabelMap();
-        List<Map<String,Object>> list;
-        switch(type){
+        HashMap<Integer, String> labelMap = labelService.getLabelMap();
+        List<Map<String, Object>> list;
+        switch (type) {
             case "Quality":
                 list = classifyMapper.getQuality();
                 break;
@@ -43,10 +42,10 @@ public class ClassifyServiceImpl implements ClassifyService {
                 list = classifyMapper.getSignificance();
                 break;
             default:
-                throw new Exception("type = "+type+ ",which is not in [Quality,Component,Consequence,Code,Significance]");
+                throw new Exception("type = " + type + ",which is not in [Quality,Component,Consequence,Code,Significance]");
         }
         Map<String, Integer> map_new = new HashMap<>();
-        for(Map<String,Object> map :list) {
+        for (Map<String, Object> map : list) {
             String key = null;
             Integer value = null;
             for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -62,19 +61,19 @@ public class ClassifyServiceImpl implements ClassifyService {
     }
 
     @Override
-    public Map<String,Map<String, Integer>> getClassify() throws Exception {
+    public Map<String, Map<String, Integer>> getClassify() throws Exception {
         Map<String, Integer> mapQuality = getClassifyType("Quality");
         Map<String, Integer> mapComponent = getClassifyType("Component");
         Map<String, Integer> mapConsequence = getClassifyType("Consequence");
         Map<String, Integer> mapCode = getClassifyType("Code");
         Map<String, Integer> mapSignificance = getClassifyType("Significance");
 
-        Map<String,Map<String, Integer>> map = new HashMap<>();
-        map.put("Quality",mapQuality);
-        map.put("Component",mapComponent);
-        map.put("Consequence",mapConsequence);
-        map.put("Code",mapCode);
-        map.put("Significance",mapSignificance);
+        Map<String, Map<String, Integer>> map = new HashMap<>();
+        map.put("Quality", mapQuality);
+        map.put("Component", mapComponent);
+        map.put("Consequence", mapConsequence);
+        map.put("Code", mapCode);
+        map.put("Significance", mapSignificance);
 
         return map;
 

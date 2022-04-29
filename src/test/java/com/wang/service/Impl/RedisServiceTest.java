@@ -16,8 +16,15 @@ public class RedisServiceTest extends BaseJunitTest {
         Jedis jedis = null;
         try{
             jedis = jedisPool.getResource();
-            jedis.set("a","atest");
-            System.out.println(jedis.get("a"));
+//            jedis.set("a","atest");
+            String jsonStr = jedis.get("b");
+            if(jsonStr == null){
+                System.out.println("未查询到");
+            }else{
+                System.out.println("查询结果为："+jsonStr);
+            }
+
+            System.out.println(jedis.exists("b"));
 
         }catch (Exception e){
             e.printStackTrace();

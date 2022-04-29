@@ -17,12 +17,14 @@ public class JedisServiceImpl implements JedisService {
         // try-with-resources 语句，使用完毕后会自动关闭资源（此处是jedis）
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, value);
+            // 设置过期时间 1 周
+            jedis.expire(key, 60 * 60 * 24 * 7);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    
+
     @Override
     public String get(String key) {
         String jsonStr = null;

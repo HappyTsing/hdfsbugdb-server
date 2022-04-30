@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--配置整合mybatis-->
-    <!--1. 关联数据库文件-->
-<!--    <context:property-placeholder location="classpath:db.properties"/>-->
+    <!--1. 关联数据库配置属性值  **在同时使用mybatis和redis的项目中，该文件在applicationContext.xml导入** -->
+    <!--    <context:property-placeholder location="classpath:properties/db.properties"/>-->
 
     <!--2. 数据库和数据库连接池-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
@@ -15,31 +14,32 @@
         <property name="password" value="${db.password}"/>
 
         <!-- 初始化连接数量 -->
-        <property name="initialSize" value="${db.initialSize}" />
+        <property name="initialSize" value="${db.initialSize}"/>
 
         <!-- 最小空闲连接数 -->
-        <property name="minIdle" value="${db.minIdle}" />
+        <property name="minIdle" value="${db.minIdle}"/>
 
         <!-- 最大并发连接数 -->
-        <property name="maxActive" value="${db.maxActive}" />
+        <property name="maxActive" value="${db.maxActive}"/>
 
         <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="${db.maxWait}" />
+        <property name="maxWait" value="${db.maxWait}"/>
 
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}"/>
 
         <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}" />
+        <property name="minEvictableIdleTimeMillis" value="${db.minEvictableIdleTimeMillis}"/>
 
-        <property name="validationQuery" value="${db.validationQuery}" />
-        <property name="testWhileIdle" value="${db.testWhileIdle}" />
-        <property name="testOnBorrow" value="${db.testOnBorrow}" />
-        <property name="testOnReturn" value="${db.testOnReturn}" />
+        <property name="validationQuery" value="${db.validationQuery}"/>
+        <property name="testWhileIdle" value="${db.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${db.testOnBorrow}"/>
+        <property name="testOnReturn" value="${db.testOnReturn}"/>
 
         <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
-        <property name="poolPreparedStatements" value="${db.poolPreparedStatements}" />
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="${db.maxPoolPreparedStatementPerConnectionSize}" />
+        <property name="poolPreparedStatements" value="${db.poolPreparedStatements}"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="${db.maxPoolPreparedStatementPerConnectionSize}"/>
 
     </bean>
 
@@ -54,10 +54,10 @@
         <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
         <!-- mybatis-config.xml主要用于配置： -->
         <!-- ①数据库和数据库连接池 √ 已配置
-             ②<mappers> XxxMapper.xml √ 已配置
+             ②<mappers> xxxMapper.xml √ 已配置
               综上所述：完全不需要该文件，因此可以注释掉！-->
 
-<!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
+        <!--        <property name="configLocation" value="classpath:mybatis-config.xml"/>-->
     </bean>
 
     <!-- 4.配置扫描Dao接口包，动态实现Dao接口注册到spring容器中 -->
@@ -66,6 +66,8 @@
     <!--注意：由于在此处已经完成了Dao接口的注册，因此无需再其他地方注册：
                 ①XML方式：类似于spring-dao.xml文件中注册Dao的接口类
                 ②注解方式：在如dao/LabelMapper.java接口文件中使用@Repository注解-->
+
+    <!--使用：此后可以直接 @Autowired private ClassifyMapper classifyMapper; 来自动注入 Mapper 实例对象-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>

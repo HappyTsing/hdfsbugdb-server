@@ -9,21 +9,22 @@
     <context:component-scan base-package="com.wang.controller"/>
 
     <!-- 让Spring MVC不处理静态资源 -->
-    <mvc:default-servlet-handler />
+    <mvc:default-servlet-handler/>
 
-    <mvc:annotation-driven />
+    <!-- Springmvc开启注解-->
+    <mvc:annotation-driven/>
     <!--切换HandlerMapping和HandlerAdapter为注解版本，效果相当于以下两句：-->
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
     <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
 
-    <!-- 视图解析器 -->
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          id="internalResourceViewResolver">
-        <!-- 前缀 -->
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <!-- 后缀 -->
-        <property name="suffix" value=".jsp" />
-    </bean>
+    <!-- 视图解析器 RestFul请求的项目中，不需要视图解析器。 -->
+    <!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"-->
+    <!--          id="internalResourceViewResolver">-->
+    <!--        &lt;!&ndash; 前缀 &ndash;&gt;-->
+    <!--        <property name="prefix" value="/WEB-INF/jsp/"/>-->
+    <!--        &lt;!&ndash; 后缀 &ndash;&gt;-->
+    <!--        <property name="suffix" value=".jsp"/>-->
+    <!--    </bean>-->
 
 
 </beans>

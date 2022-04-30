@@ -5,6 +5,9 @@ import com.wang.pojo.Classify;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author happytsing
+ */
 public interface ClassifyMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -18,11 +21,15 @@ public interface ClassifyMapper {
 
     int updateByPrimaryKey(Classify row);
 
-    List<Map<String,Object>> getQuality();
-    List<Map<String,Object>> getComponent();
-    List<Map<String,Object>> getConsequence();
-    List<Map<String,Object>> getCode();
-    List<Map<String,Object>> getSignificance();
+    List<Map<String, Object>> getQuality();
+
+    List<Map<String, Object>> getComponent();
+
+    List<Map<String, Object>> getConsequence();
+
+    List<Map<String, Object>> getCode();
+
+    List<Map<String, Object>> getSignificance();
 
     int vitalCount();
 

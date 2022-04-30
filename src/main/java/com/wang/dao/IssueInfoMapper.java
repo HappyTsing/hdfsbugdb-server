@@ -1,12 +1,14 @@
 package com.wang.dao;
 
 import com.wang.pojo.IssueInfo;
-// 千万不要导错spring的@Param！
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author happytsing
+ */
 public interface IssueInfoMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -23,10 +25,9 @@ public interface IssueInfoMapper {
     int updateByPrimaryKey(IssueInfo row);
 
 
-    List<Map<String,Object>> pageQuery(@Param("limit")Integer limit, @Param("offset")Integer offset);
+    List<Map<String, Object>> pageQuery(@Param("limit") Integer limit, @Param("offset") Integer offset);
 
-    List<Map<String,Object>> queryByValue(@Param("limit")Integer limit, @Param("offset")Integer offset,@Param("searchType")String searchType,@Param("searchValue")String searchValue);
-
+    List<Map<String, Object>> queryByValue(@Param("limit") Integer limit, @Param("offset") Integer offset, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
 
 
 }

@@ -1,5 +1,11 @@
 package com.wang.pojo;
 
+
+/**
+ * 数据库Classify表，对应的java对象
+ *
+ * @author happytsing
+ */
 public class Classify {
     private Integer id;
 

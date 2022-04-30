@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * @author happytsing
+ */
 @Service
 public class ClassifyServiceImpl implements ClassifyService {
     @Autowired
     private ClassifyMapper classifyMapper;
-    
+
     @Autowired
     private LabelService labelService;
 

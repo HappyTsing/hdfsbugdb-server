@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+/**
+ * @author happytsing
+ */
 @Service
 public class JedisServiceImpl implements JedisService {
 
@@ -14,11 +17,11 @@ public class JedisServiceImpl implements JedisService {
 
     @Override
     public void set(String key, String value) {
-        // try-with-resources 语句，使用完毕后会自动关闭资源（此处是jedis）
+        // try-with-resources 语句，使用完毕后会自动关闭资源（即jedis）
         try (Jedis jedis = jedisPool.getResource()) {
             jedis.set(key, value);
-            // 设置过期时间 1 周
-            jedis.expire(key, 60 * 60 * 24 * 7);
+            // 设置过期时间 1 个月
+            jedis.expire(key, 60 * 60 * 24 * 30);
         } catch (Exception e) {
             e.printStackTrace();
         }

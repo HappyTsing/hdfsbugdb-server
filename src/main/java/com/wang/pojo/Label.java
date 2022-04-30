@@ -1,5 +1,10 @@
 package com.wang.pojo;
 
+/**
+ * 数据库Label表，对应的java对象
+ *
+ * @author happytsing
+ */
 public class Label {
     private Integer id;
 

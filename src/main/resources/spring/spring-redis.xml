@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--配置整合mybatis-->
 
+    <!-- 1. 关联redis的配置属性值文件 **在同时使用mybatis和redis的项目中，该文件在applicationContext.xml导入** -->
+    <!--    <context:property-placeholder location="classpath:properties/redis.properties"/>-->
 
-
-    <!-- redis连接池配置 -->
+    <!-- 2. redis连接池配置 -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- 最大连接数 -->
-        <property name="maxTotal" value="${redis.maxTotal}" />
+        <property name="maxTotal" value="${redis.maxTotal}"/>
         <!-- 最大空闲连接数 -->
-        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="maxIdle" value="${redis.maxIdle}"/>
         <!-- 每次释放连接的最大数目 -->
-        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}" />
+        <property name="numTestsPerEvictionRun" value="${redis.numTestsPerEvictionRun}"/>
         <!-- 在获取连接的时候检查有效性, 默认false -->
-        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}"/>
         <!-- 在空闲时检查有效性, 默认false -->
-        <property name="testWhileIdle" value="${redis.testWhileIdle}" />
+        <property name="testWhileIdle" value="${redis.testWhileIdle}"/>
         <!-- 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时, 默认true -->
-        <property name="blockWhenExhausted" value="${redis.blockWhenExhausted}" />
+        <property name="blockWhenExhausted" value="${redis.blockWhenExhausted}"/>
     </bean>
 
+    <!-- 3. 向spring注册jedisPool，此后可以通过 @Autowired private JedisPool jedispool; 来自动注入 JedisPool实例对象 -->
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg name="host" value="${redis.host}"/>
         <constructor-arg name="port" value="${redis.port}"/>

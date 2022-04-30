@@ -1,5 +1,10 @@
 package com.wang.pojo;
 
+/**
+ * 数据库IssueInfo表，对应的java对象
+ *
+ * @author happytsing
+ */
 public class IssueInfo {
     private Integer id;
 

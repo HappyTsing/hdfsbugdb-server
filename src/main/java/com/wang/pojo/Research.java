@@ -1,5 +1,10 @@
 package com.wang.pojo;
 
+/**
+ * 数据库Research表，对应的java对象
+ *
+ * @author happytsing
+ */
 public class Research {
     private Integer id;
 

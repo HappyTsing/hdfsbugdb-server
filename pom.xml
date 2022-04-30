@@ -136,12 +136,12 @@
             <version>${logback-classic.version}</version>
         </dependency>
 
-<!--        &lt;!&ndash;文件上传&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>commons-fileupload</groupId>-->
-<!--            <artifactId>commons-fileupload</artifactId>-->
-<!--            <version>${commons-fileupload.version}</version>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash;文件上传&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>commons-fileupload</groupId>-->
+        <!--            <artifactId>commons-fileupload</artifactId>-->
+        <!--            <version>${commons-fileupload.version}</version>-->
+        <!--        </dependency>-->
 
         <!-- 添加 druid 数据源 -->
         <dependency>
@@ -193,6 +193,12 @@
                 </configuration>
             </plugin>
             <plugin>
+                <!-- 配置完毕后，可在右侧的maven选项的Plugins中，找到mybatis-generator这个插件。
+                     根据本项目的配置文件，使用即可生成：（以Label为例）
+                                1. dao/LabelMapper
+                                2. resources/mapper/LabelMapper.xml
+                                3. pojo/Label
+                -->
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>${mybatis-generator.version}</version>

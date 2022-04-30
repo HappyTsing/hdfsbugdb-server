@@ -22,7 +22,10 @@ import java.util.Map;
 
 /**
  * 1. 可以直接返回HashMap，当使用@RestController 或 @Controller和@ResponseBody 的时候，会自动转换为json
- * 2. 返回一个对象，对象也会自动转化为json格式，本项目都讲返回值包装在Result对象中
+ * 2. 返回一个对象，对象也会自动转化为json格式，本项目都讲返回值包装在Result对象中，因此可以直接返回Result对象
+ * 3. 直接返回String类型，但在此之前需要使用jackson转换为json格式。
+ *
+ * @author happytsing
  */
 @RestController
 @RequestMapping("/api")
@@ -166,7 +169,7 @@ public class APIController {
 }
 
 
-    /* 无缓存版本
+    /* 无缓存版本 直接返回Result对象
      @GetMapping("/issues/all/{pagesize}/{pagenum}")
      public Result<Issues> getAllIssues(@PathVariable(value="pagesize") Integer pagesize, @PathVariable(value="pagenum") Integer pagenum){
      System.out.println(request.getRequestURI());

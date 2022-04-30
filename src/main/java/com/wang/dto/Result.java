@@ -1,8 +1,10 @@
 package com.wang.dto;
 
 import org.springframework.http.HttpStatus;
+
 /**
- * 封装json对象，所有返回结果都使用它
+ * 封装json对象，Controller最终返回的都是Result对象
+ *
  * @author happytsing
  */
 public class Result<T> {
@@ -21,7 +23,8 @@ public class Result<T> {
 
     /**
      * 成功时的构造器
-     * @param status：HttpStatus.OK  200
+     *
+     * @param status：HttpStatus.OK 200
      * @param data
      */
     public Result(HttpStatus status, T data) {
@@ -31,11 +34,11 @@ public class Result<T> {
 
     /**
      * 失败时的构造器
-     * @param status：常用的有：
-     *              HttpStatus.BAD_REQUEST 400
-     *              HttpStatus.NOT_FOUND 404
-     *              HttpStatus.INTERNAL_SERVER_ERROR 500
-     *              HttpStatus.BAD_GATEWAY 502
+     *
+     * @param status：常用的有： HttpStatus.BAD_REQUEST 400
+     *                     HttpStatus.NOT_FOUND 404
+     *                     HttpStatus.INTERNAL_SERVER_ERROR 500
+     *                     HttpStatus.BAD_GATEWAY 502
      * @param error
      */
     public Result(HttpStatus status, String error) {

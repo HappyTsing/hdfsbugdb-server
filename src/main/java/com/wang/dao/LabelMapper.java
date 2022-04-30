@@ -4,6 +4,9 @@ import com.wang.pojo.Label;
 
 import java.util.List;
 
+/**
+ * @author happytsing
+ */
 public interface LabelMapper {
     int deleteByPrimaryKey(Integer id);
 

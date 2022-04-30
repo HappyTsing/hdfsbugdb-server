@@ -2,6 +2,9 @@ package com.wang.dao;
 
 import com.wang.pojo.Research;
 
+/**
+ * @author happytsing
+ */
 public interface ResearchMapper {
     int deleteByPrimaryKey(Integer id);
 

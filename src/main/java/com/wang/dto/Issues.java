@@ -3,11 +3,11 @@ package com.wang.dto;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * 使用lombok的@Data注解生成get、set、toString、equals、hashCode等方法
+ *
+ * @author happytsing
  */
 @Data
 public class Issues {

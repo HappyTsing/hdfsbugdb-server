@@ -7,17 +7,25 @@
     <context:component-scan base-package="com.wang.service.impl"/>
 
 
-<!--    由于已经开启了注释，因此本项目都用注释的方法来进行 ①bean注册 和 ②依赖注入
-        而不是采用XML的方式进行，XML依赖注入有两种方式：
-                    1. 构造器注入
-                    2. set注入：示例如下
-                            ①注册了一个类（bean）issueInfoServiceImpl。
-                            ②注入了一个bean类型的依赖issueInfoMapper
-                             注：issueInfoMapper也是一个如 <bean id="issueInfoServiceImpl"/> 的bean，但它的注册方式有些奇特：在spring-mybatis.xml中以自动扫描的方式注入
-                      当使用set注入时，issueInfoServiceImpl需要写一个setIssueInfoMapper()方法。
+    <!--    由于已经开启了注释，因此本项目都用注释的方法来进行 ①bean注册 和 ②依赖注入
+            而不是采用XML的方式进行，XML依赖注入有两种方式：
+                        1. 构造器注入
+                        2. set注入：示例如下
+                                ①注册了一个类（bean）issueInfoServiceImpl。
+                                ②注入了一个bean类型的依赖issueInfoMapper
+                                 注：issueInfoMapper也是一个如 <bean id="issueInfoServiceImpl"/> 的bean，但它的注册方式有些奇特：在spring-mybatis.xml中以自动扫描的方式注入
+                          当使用set注入时，issueInfoServiceImpl需要写一个setIssueInfoMapper()方法。
 
--->
-<!--    <bean id="issueInfoServiceImpl" class="com.wang.service.impl.IssueInfoServiceImpl">-->
-<!--        <property name="IssueInfoMapper" ref="issueInfoMapper"/>-->
-<!--    </bean>-->
+    -->
+
+    <!--    <bean id="issueInfoServiceImpl" class="com.wang.service.impl.IssueInfoServiceImpl">-->
+    <!--        <property name="issueInfoMapper" ref="issueInfoMapper"/>-->
+    <!--    </bean>-->
+
+    <!--    <bean class="com.wang.service.impl.IssueInfoServiceImpl" name="infoService1">-->
+    <!--        <property name="issueInfoMapper" ref="issueInfoMapper"/>-->
+    <!--    </bean>-->
+    <!--    <bean class="com.wang.service.impl.IssueInfoServiceImpl" name="infoService2">-->
+    <!--        <property name="issueInfoMapper" ref="issueInfoMapper"/>-->
+    <!--    </bean>-->
 </beans>

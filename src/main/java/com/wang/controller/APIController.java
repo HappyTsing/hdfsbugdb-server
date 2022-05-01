@@ -58,7 +58,6 @@ public class APIController {
         } else {
             logger.info(uri + " Redis Cache Failure");
             try {
-
                 Map<String, Map<String, Integer>> map = classifyService.getClassify();
                 resultObj = new Result<Map<String, Map<String, Integer>>>(HttpStatus.OK, map);
                 logger.info(uri + " Search From Mysql Success");

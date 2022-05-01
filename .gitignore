@@ -1,10 +1,27 @@
-### Example user template template
-### Example user template
+.DS_Store
+node_modules
+/dist
+output.js
 
-# IntelliJ project files
+
+# local env files
+.env.local
+.env.*.local
+
+
+# Log files
+logback
+
+
+# Editor directories and files
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 .idea
 *.iml
 out
 gen
 target
-logback

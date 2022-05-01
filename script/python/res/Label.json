@@ -1,0 +1,93 @@
+{
+  "Classification": {
+    "Significance": ["Vital", "Negligible"],
+    "Quality": [
+      "Availability",
+      "Reliability",
+      "Security",
+      "Efficiency",
+      "Compatibility",
+      "Usability"
+    ],
+    "Component": [
+      "Client",
+      "Namenode",
+      "Datanode",
+      "HA",
+      "SnapShot",
+      "Cache",
+      "LIBS",
+      "DOCS",
+      "FSCK",
+      "HttpFS",
+      "WebHDFS",
+      "EC",
+      "RBF",
+      "Disk-Balancer"
+    ],
+    "Consequence": [
+      "Build-Error",
+      "Runtime-Error",
+      "Test-Error",
+      "Data-Loss",
+      "Data-Corruption",
+      "Failure",
+      "Performance",
+      "Potential-Impact"
+    ],
+    "Code": [
+      "Logic",
+      "Maintenance",
+      "Config",
+      "Interface",
+      "Error-Handle",
+      "Concurrent"
+    ]
+  },
+  "Commemts": {
+    "Significance": {
+      "Vital": "重要的，仅有这种类型的才进行分析",
+      "Negligible": "可以忽略不计，此类型不分析，直接跳过。"
+    },
+    "Quality": {
+      "Availability": "可用性，系统是否可以马上运行，在任何给定时刻都能及时工作",
+      "Reliability": "可靠性，系统可以无故障的持续运行，强调持续性",
+      "Security": "安全性",
+      "Efficiency": "高效性",
+      "Compatibility": "兼容性，比如版本兼容性，平台兼容性",
+      "Usability": "易用性"
+    },
+    "Component": {
+      "Client": "客户端相关组件",
+      "Namenode": "Namenode的启动和停止、安全模式、fsimage、editslog等",
+      "Datanode": "心跳、数据块汇报、数据块的操作",
+      "HA": "NN的高可用、JournalNodes",
+      "SnapShot": "快照",
+      "EC": "Erasure-Coding 纠错码",
+      "Cache": "缓存",
+      "LIBS": "外部依赖库",
+      "Protocol": "协议",
+      "Hardware": "硬件相关",
+      "DOCS": "文档",
+      "FSCK": "fsck命令相关"
+    },
+    "Consequence": {
+      "Build-Error": "编译或构建失败",
+      "Runtime-Error": "运行时错误，如异常抛出、超时等",
+      "Test-Error": "测试相关",
+      "Failure": "不符合预期的操作，如死锁、死循环、崩溃、挂起（hang 需要特殊讲解）等",
+      "Performance": "性能降低",
+      "Data-Loss": "数据丢失",
+      "Data-Corruption": "数据损坏",
+      "Potential-Impact": "目前没有影响，但如果不更改可能会出现潜在问题。也包括文档的修改"
+    },
+    "Code": {
+      "Logic": "代码逻辑相关",
+      "Maintenance": "代码维护",
+      "Config": "配置错误导致的issues",
+      "Interface": "接口改动导致的issues、接口参数传错",
+      "Error-Handle": "对错误的错误处理导致的issues",
+      "Concurrent": "多线程、异步相关、锁"
+    }
+  }
+}

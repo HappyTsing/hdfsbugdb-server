@@ -1,6 +1,6 @@
 # 简介
 
-该项目作为毕设的后端。
+本科毕设后端，基于 Spring + SpringMVC + Mybatis + Redis + Mysql。
 
 # 项目依赖
 

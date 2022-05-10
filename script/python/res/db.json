@@ -15,7 +15,9 @@
   "HDFS-15113": {
     "Cause": "Datanode的块汇报分为IBR(增量块汇报)和FBR(全量块汇报),Namenode重启的时候,会发送 DNA_REGISTER 命令给Datanode,Datanode收到后,异步运行#reRegister,由于是异步运行,无法确定发送FBR和清除IBR哪个先运行。如果先发送FBR然后清除IBR,就会在这两个时间点之间丢失一些块,直到下一个FBR。",
     "Impact": "如果打开 processCommand 异步功能,Namenode 重新启动时缺少 IBR,即Namenode重新启动后丢失块",
-    "Link": ["HDFS-14997"],
+    "Link": [
+      "HDFS-14997"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -41,7 +43,9 @@
   "HDFS-15421": {
     "Cause": "在HDFS-14941之后,global gen stamp的更新在某些情况下被延迟,这使得最后一组增量块报告泄露",
     "Impact": "Namenode无法自行退出安全模式,该模式下Namenode不接收任何对于命名空间的修改操作,同时也不触发任何复制和删除数据块的操作",
-    "Link": ["HDFS-14941"],
+    "Link": [
+      "HDFS-14941"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -54,7 +58,9 @@
   "HDFS-16027": {
     "Cause": "JournalNodeMXBean是一个公共接口,在某次更新中,添加了getClusterIds()、getClusterIds()、getVersion()三个方法,",
     "Impact": "破坏了 3.3.0 和 3.3.1 两个版本之间的源代码兼容性。",
-    "Link": ["HDFS-15245"],
+    "Link": [
+      "HDFS-15245"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -67,7 +73,9 @@
   "HDFS-16001": {
     "Cause": "TestOfflineEditsViewer.testStored()读取FSEditLogOpCodes的负值失败。",
     "Impact": "edits version太低,需要升级",
-    "Link": ["HDFS-15566"],
+    "Link": [
+      "HDFS-15566"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -80,7 +88,11 @@
   "HDFS-15566": {
     "Cause": "更新中向editLog事务引入了modification time,当NN重启的时候,从editLog文件中读取旧的布局版本,且假设事务也来自先前的版本,因此跳过解析modification time,会级联导致NN关闭.",
     "Impact": "Namenode重新启动失败",
-    "Link": ["HDFS-14922", "HDFS-14924", "HDFS-15054"],
+    "Link": [
+      "HDFS-14922",
+      "HDFS-14924",
+      "HDFS-15054"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -145,7 +157,9 @@
   "HDFS-15012": {
     "Cause": "HDFS-13101引入的代码逻辑错误,当删除大量快照后,解析EditLog失败",
     "Impact": "Namenode解析EditLog失败",
-    "Link": ["HDFS-13101"],
+    "Link": [
+      "HDFS-13101"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -197,7 +211,9 @@
   "HDFS-14595": {
     "Cause": "HDFS-11848向 DistributedFileSystem.listOpenFiles() 添加了一个附加参数,但它不保留现有 API。",
     "Impact": "从 Hadoop 2.9.0/2.8.3/3.0.0 升级到 3.0.1/3.1.0 及更高版本时,这可能会导致问题。",
-    "Link": ["11848"],
+    "Link": [
+      "11848"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -223,7 +239,9 @@
   "HDFS-14821": {
     "Cause": "在没有应用HDFS-14617补丁的情况下,可以加载一个在图像摘要部分列出了子部分的fsimage,因此fsimage sub-sections默认打开",
     "Impact": "如果集群被升级到包含该功能的版本,那么在降级时,图像将无法加载",
-    "Link": ["HDFS-14617"],
+    "Link": [
+      "HDFS-14617"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -236,7 +254,9 @@
   "HDFS-14726": {
     "Cause": "HDFS-10519中引入了必填字段committedTxnId",
     "Impact": "如果JN和NN不在同一版本上,出现不兼容内容问题,将遇到缺少字段异常",
-    "Link": ["HDFS-10519"],
+    "Link": [
+      "HDFS-10519"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -652,7 +672,9 @@
   "HDFS-14668": {
     "Cause": "有 2 个带 kdc 的领域。一个领域用于人类用户 (USERS.COM.US),另一个领域用于服务主体(SERVICE.COM.US) 跨领域。在 krb5.conf 中，默认域设置为 SERVICE.COM.US",
     "Impact": "USERS.COM.US领域内的用户不能将任何文件放到Fuse挂载的位置上。",
-    "Link": ["HADOOP-9747"],
+    "Link": [
+      "HADOOP-9747"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Security",
@@ -704,7 +726,9 @@
   "HDFS-14845": {
     "Cause": "After HADOOP-16314, JWTRedirectAuthenticationHandler is enabled for httpfs in addition to KerberosDelegationTokenAuthenticationHandler, which is set by HttpFSAuthenticationFilter.",
     "Impact": "在Trunk上通过httpfs访问HDFS时，出现 Request is a replay (34)错误 ",
-    "Link": ["HADOOP-16314"],
+    "Link": [
+      "HADOOP-16314"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Security",
@@ -951,7 +975,9 @@
   "HDFS-16402": {
     "Cause": "stats.subtract()和stats.add()不是事务性的",
     "Impact": "Namenode统计信息会出现错误",
-    "Link": ["HDFS-14042"],
+    "Link": [
+      "HDFS-14042"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1107,7 +1133,9 @@
   "HDFS-16392": {
     "Cause": "它的父类 FileSystemContractBaseTest 设置了 @Rule public Timeout globalTimeout",
     "Impact": "即使TestHDFSFileSystemContract.testAppend设置了 @Test(timeout = 60000) ，也不会生效",
-    "Link": ["HDFS-16168"],
+    "Link": [
+      "HDFS-16168"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1120,7 +1148,9 @@
   "HDFS-16385": {
     "Cause": "HDFS-16320之后，DataNode 将从每个 NameNode 检索 SLOW 状态",
     "Impact": "由于bug，namenode并没有在DatanodeProtocolServerSideTranslatorPB#sendHeartbeat中将isSlowNode设置为HeartbeatResponseProto。",
-    "Link": ["HDFS-16320"],
+    "Link": [
+      "HDFS-16320"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1133,7 +1163,9 @@
   "HDFS-16014": {
     "Cause": "在HDFS-14818中，我们提出了一个补丁来支持检查本地的pmdk库。预期的目标是向用户显示关于pmdk lib加载状态的提示",
     "Impact": "pmdk lib实际上没有被成功加载，但`hadoop checknative`命令仍然告诉用户它被加载了",
-    "Link": ["HDFS-14818"],
+    "Link": [
+      "HDFS-14818"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1159,7 +1191,9 @@
   "HDFS-16369": {
     "Cause": "截至目前，invokeAtAvailableNs 仅在默认或第一个命名空间不可用时重试一次，尽管有其他命名空间可用。",
     "Impact": "优化以重试所有命名空间。",
-    "Link": ["HDFS-16359"],
+    "Link": [
+      "HDFS-16359"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1172,7 +1206,9 @@
   "HDFS-16359": {
     "Cause": "代码逻辑问题",
     "Impact": "RouterRpcServer#invokeAtAvailableNs 重试时不生效",
-    "Link": ["HDFS-16369"],
+    "Link": [
+      "HDFS-16369"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1211,7 +1247,9 @@
   "HDFS-16187": {
     "Cause": "Xattrs 和 Acl 的 SnapshotDiff 行为在 NN 重新启动时与检查点不一致",
     "Impact": "distcp与snapshot diff会失败，出现以下错误:WARN tools.DistCp: The target has been modified since snapshot xxxxx。",
-    "Link": ["HDFS-16055"],
+    "Link": [
+      "HDFS-16055"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1224,7 +1262,9 @@
   "HDFS-16055": {
     "Cause": "Quota is not preserved in snapshot INode",
     "Impact": "这会导致INodeDirectory#metadataEquals始终返回 true。因此，snapshotDiff将始终返回已修改的快照根，即使在创建快照之前设置了配额：",
-    "Link": ["HDFS-16187"],
+    "Link": [
+      "HDFS-16187"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -1237,7 +1277,9 @@
   "HDFS-16304": {
     "Cause": "在 Debian 10 上查找 OpenSSL 似乎存在问题",
     "Impact": "libhdfspp找不到openssl库",
-    "Link": ["HDFS-16300"],
+    "Link": [
+      "HDFS-16300"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -1315,7 +1357,9 @@
   "HDFS-14575": {
     "Cause": "目前LeaseRenewer（和它的守护线程）在没有客户的情况下应该在一个宽限期后终止，这个宽限期默认为60秒。当LeaseRenewer过期后有新的请求时，可能会发生一个竞赛条件。",
     "Impact": "LeaseRenewer#daemon 线程在 DFSClient 中泄漏，永远无法删除，也没有机会停止",
-    "Link": ["HDFS-16235"],
+    "Link": [
+      "HDFS-16235"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -1354,7 +1398,9 @@
   "HDFS-16233": {
     "Cause": "HDFS-14547通过本质上实现写时复制策略来节省 EnumCounters 占用的 NameNode 堆空间。一开始，所有 EnumCounters 都引用相同的 ConstEnumCounters 以节省堆空间。当它被修改时，会抛出一个异常，异常处理程序将 ConstEnumCounters 转换为 EnumCounters 对象并更新它。",
     "Impact": "使用异常处理程序来执行任何事情，而不是偶尔对性能不利。",
-    "Link": ["HDFS-14547"],
+    "Link": [
+      "HDFS-14547"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Efficiency",
@@ -1380,7 +1426,9 @@
   "HDFS-15977": {
     "Cause": "CentOS/RHEL 7 有 glibc 2.17，不支持explicit_bzero。现在我不想放弃对 CentOS/RHEL 7 的支持，我们应该只在它可用时才调用 explicit_bzero。",
     "Impact": "该只在它可用时才调用 explicit_bzero",
-    "Link": ["HDFS-15910"],
+    "Link": [
+      "HDFS-15910"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -1562,7 +1610,9 @@
   "HDFS-16087": {
     "Cause": "",
     "Impact": "在运行rbfbalance命令时，平衡过程将卡在DisableWrite阶段。",
-    "Link": ["HDFS-15294"],
+    "Link": [
+      "HDFS-15294"
+    ],
     "Classification": {
       "Significance": "Negligible",
       "Quality": "",
@@ -1601,7 +1651,9 @@
   "HDFS-16121": {
     "Cause": "迭代快照差异报告首先遍历目录差异的创建列表，然后是删除列表。如果删除的列表大小小于创建的列表大小，则相应列表中的偏移量计算似乎是错误的",
     "Impact": "因此，差异报告生成调用的下一次迭代，它将开始迭代已创建列表中已处理的内容，从而导致列表中出现重复条目​​",
-    "Link": ["HDFS-13252"],
+    "Link": [
+      "HDFS-13252"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -1640,7 +1692,9 @@
   "HDFS-16061": {
     "Cause": "在检查HDFS-15146中描述的TestBalancerRPCDelay#testBalancerRPCDelayQpsDefault的间歇性故障时，我发现waitReplication的实现不正确。在最后一次迭代中，当correctReplFactor为false时，线程会休眠1秒，然后抛出一个TimeoutException，而没有检查最后一秒是否完成复制。",
     "Impact": "DFTestUtil.waitReplication 会产生误报",
-    "Link": ["HDFS-15671"],
+    "Link": [
+      "HDFS-15671"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -1653,7 +1707,9 @@
   "HDFS-15618": {
     "Cause": "Datanode的关闭是一个非常长的延迟。一个块扫描器在每个VolumeScanner线程上等待5分钟才能加入。由于扫描器是守护线程，不改变区块内容，所以在关闭Datanode时忽略这种情况是安全的。",
     "Impact": "Datanode关闭延迟过长",
-    "Link": ["HDFS-9409"],
+    "Link": [
+      "HDFS-9409"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Efficiency",
@@ -1783,7 +1839,9 @@
   "HDFS-15313": {
     "Cause": "由于HDFS-13101中引入的对父目录的isLastReference()检查在某些情况下可能会返回true。",
     "Impact": "所以删除快照最终会清理活动fs中的节点，这些节点只能从一个快照中引用",
-    "Link": ["HDFS-13101"],
+    "Link": [
+      "HDFS-13101"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -1965,7 +2023,9 @@
   "HDFS-15915": {
     "Cause": "FSEditLogAsync创建了一个FSEditLogOp，并在FSNamesystem.writeLock内填充其字段。但是有一个重要的字段，即编辑操作的交易ID，在操作被安排为同步的时候，仍然没有设置。那时，beginTransaction()将设置FSEditLogOp.txid并增加全局事务计数。在繁忙的NameNode上，这个事件可能落在写锁之外。",
     "Impact": "这给观察者的读取带来了问题。它也有可能重新洗牌交易，而Standby会以错误的顺序应用它们。",
-    "Link": ["HDFS-16050"],
+    "Link": [
+      "HDFS-16050"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2108,7 +2168,9 @@
   "HDFS-15339": {
     "Cause": "testHDFSConf.xml uses regexes [a-zA-z0-9]*",
     "Impact": "TestHDFSCLI fails for user names with the dot/dash character",
-    "Link": ["HDFS-5821"],
+    "Link": [
+      "HDFS-5821"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2186,7 +2248,9 @@
   "HDFS-15916": {
     "Cause": "新的 API 引入 getSnapshotDiffReportListing 破坏了向后兼容性",
     "Impact": "当在从 hadoop 3 集群到 hadoop 2 集群的两个快照之间使用 distcp 差异选项时抛出异常",
-    "Link": ["HIVE-24852"],
+    "Link": [
+      "HIVE-24852"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -2277,7 +2341,9 @@
   "HDFS-15660": {
     "Cause": "因为hadoop3增加了新的PROVIDED存储类型",
     "Impact": "当nn升级到3.1.3，dn的版本还是2.6时，我们发现hive调用getContentSummary方法，客户端和服务器不兼容",
-    "Link": ["HDFS-9806"],
+    "Link": [
+      "HDFS-9806"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -2355,7 +2421,9 @@
   "HDFS-15624": {
     "Cause": "HDFS-15025 添加新的存储类型 NVDIMM，更改 StorageType 枚举的 ordinal()。并且，通过 storageType 设置配额依赖于 ordinal()，因此升级后可能会导致配额设置无效。",
     "Impact": "the setting of quota to be invalid after upgrade.",
-    "Link": ["HDFS-15025"],
+    "Link": [
+      "HDFS-15025"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",
@@ -2394,7 +2462,9 @@
   "HDFS-15243": {
     "Cause": "HDFS-8983添加了fs.protected.directories来支持NameNode上的受保护目录。但是当把一个父目录（如/testA）设置为受保护目录时，子目录（如/testA/testB）仍然可以被删除或重命名",
     "Impact": "当我们保护一个目录时，主要是为了保护这个目录下的数据，所以如果父目录是受保护的目录，子目录不应该被删除或重命名。",
-    "Link": ["HDFS-8983"],
+    "Link": [
+      "HDFS-8983"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2498,7 +2568,9 @@
   "HDFS-15198": {
     "Cause": "在问题HDFS-13443中，立即更新挂载表缓存。指定的路由器会立即更新自己的挂载表缓存，然后通过rpc协议refreshMountTableEntries更新其他路由器的缓存。但在安全模式下，不能更新其他路由器的。",
     "Impact": "抛出异常，无法更新其他路由器的缓存。",
-    "Link": ["HDFS-13443"],
+    "Link": [
+      "HDFS-13443"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2667,7 +2739,9 @@
   "HDFS-15935": {
     "Cause": "复制的字符串故意不以 null 结尾，因此我们适当地附加了一个自定义字符。strncpy 报告的警告有效，但不适用于此场景。因此，我们需要使用 memcpy，它不介意字符串是否为空终止。",
     "Impact": "编译 HDFS 本​​机客户端时收到警告 warning: '__builtin_strncpy' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]",
-    "Link": ["HDFS-15922"],
+    "Link": [
+      "HDFS-15922"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2680,7 +2754,9 @@
   "HDFS-15922": {
     "Cause": "复制的字符串故意不以 null 结尾，因为我们想自己插入一个 PATH_SEPARATOR。strncpy 报告的警告有效，但不适用于此场景。因此，我们需要使用 memcpy，它不介意字符串是否为空终止。",
     "Impact": "编译 HDFS 本​​机客户端时收到警告 warning: '__builtin_strncpy' output truncated before terminating nul copying as many bytes from a string as its length [-Wstringop-truncation]",
-    "Link": ["HDFS-15935"],
+    "Link": [
+      "HDFS-15935"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2706,7 +2782,11 @@
   "HDFS-14546": {
     "Cause": "所有文档都参考了默认的块放置策略但是，随着时间的推移，出现了新的策略：BlockPlacementPolicyRackFaultTolerant (HDFS-7891)、BlockPlacementPolicyWithNodeGroup (HDFS-3601)、BlockPlacementPolicyWithUpgradeDomain (HDFS-9006)",
     "Impact": "应该更新文档以引用它们来解释它们的特殊性以及可能如何设置它们中的每一个",
-    "Link": ["DHFS-7891", "HDFS-3601", "HDFS-9006"],
+    "Link": [
+      "DHFS-7891",
+      "HDFS-3601",
+      "HDFS-9006"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -2810,7 +2890,9 @@
   "HDFS-15809": {
     "Cause": "DeadNodeDetector 不会从死节点集中删除活动节点",
     "Impact": "进入死循环，无法恢复活节点",
-    "Link": ["HDFS-13571"],
+    "Link": [
+      "HDFS-13571"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -2849,7 +2931,9 @@
   "HDFS-15661": {
     "Cause": "目前 DeadNodeDetector 是 ClientContext 的成员。这意味着它由许多不同的 DFSClients 共享。",
     "Impact": "当调用一个 DFSClient.close() 时，DeadNodeDetecotor 线程将被中断并影响其他 DFSClients。",
-    "Link": ["HDFS-13571"],
+    "Link": [
+      "HDFS-13571"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Efficiency",
@@ -2888,7 +2972,10 @@
   "HDFS-15792": {
     "Cause": "并发异常问题",
     "Impact": "加载 FSImage 时出现 ClasscastException",
-    "Link": ["HDFS-15907", "HDFS-14617"],
+    "Link": [
+      "HDFS-15907",
+      "HDFS-14617"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -2953,7 +3040,11 @@
   "HDFS-14961": {
     "Cause": "ZKFC 改变 Observer Namenode 状态为 Standby",
     "Impact": "TestDFSZKFailoverController 一直失败，在 testManualFailoverWithDFSHAAdmin() 中等待超时",
-    "Link": ["HDFS-14130", "HDFS-15023", "HDFS-14998"],
+    "Link": [
+      "HDFS-14130",
+      "HDFS-15023",
+      "HDFS-14998"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3057,7 +3148,9 @@
   "HDFS-15600": {
     "Cause": "The test is failing due to addition of a new storage type NVDIMM in middle.",
     "Impact": "TestRouterQuota fails in trunk",
-    "Link": ["HDFS-15025"],
+    "Link": [
+      "HDFS-15025"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3083,7 +3176,10 @@
   "HDFS-14859": {
     "Cause": "当 dfs.namenode.safemode.min.datanodes 不为零时，防止对代价高昂的操作 getNumLiveDataNodes 进行不必要的评估",
     "Impact": "每个块的 getNumLiveDataNodes 调用会引起性能问题",
-    "Link": ["HDFS-14171", "HDFS-14623"],
+    "Link": [
+      "HDFS-14171",
+      "HDFS-14623"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Efficiency",
@@ -3148,7 +3244,10 @@
   "HDFS-15471": {
     "Cause": "测试失败",
     "Impact": "TestHDFSContractMultipartUploader在主干上失败并出现IllegalArgumentException",
-    "Link": ["HDFS-13934", "HADOOP-17233"],
+    "Link": [
+      "HDFS-13934",
+      "HADOOP-17233"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3174,7 +3273,11 @@
   "HDFS-15540": {
     "Cause": "“移至垃圾箱”在 FSNameSystem 和 FSDirRenameOp 中使用了不同的重命名方法",
     "Impact": "受保护的目录仍然可以移动到垃圾箱",
-    "Link": ["HDFS-8983", "HDFS-14802", "HDFS-15243"],
+    "Link": [
+      "HDFS-8983",
+      "HDFS-14802",
+      "HDFS-15243"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -3213,7 +3316,10 @@
   "HDFS-14535": {
     "Cause": "当向 DomainPeer 请求文件描述符时，我们为 BufferedOutputStream 分配了巨大的 8KB 缓冲区，尽管协议内容很小，只有几个字节",
     "Impact": "requestFileDescriptors#BufferedOutputStream中默认的8KB缓冲区在HBase中使用短循环读取时导致大量的堆分配。",
-    "Link": ["HBASE-22387", "HBASE-21879"],
+    "Link": [
+      "HBASE-22387",
+      "HBASE-21879"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Efficiency",
@@ -3434,7 +3540,11 @@
   "HDFS-15325": {
     "Cause": "由于更改了 CallQueue 构造函数，TestRefreshCallQueue 失败",
     "Impact": "TestRefreshCallQueue.MockCallQueue无法实例化，因为它在构造函数中缺少一个参数",
-    "Link": ["HDFS-15324", "HADOOP-17010", "HDFS-10253"],
+    "Link": [
+      "HDFS-15324",
+      "HADOOP-17010",
+      "HDFS-10253"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3447,7 +3557,9 @@
   "HDFS-15320": {
     "Cause": "代码逻辑问题",
     "Impact": "当对“http://<DN host>:<DN port>/”的请求不带“webhdfs/v1”后缀时，DN返回500响应码并抛出StringIndexOutOfBoundsException",
-    "Link": ["HDFS-14234"],
+    "Link": [
+      "HDFS-14234"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3460,7 +3572,10 @@
   "HDFS-15149": {
     "Cause": "HDFS-14651的变化经常导致TestDeadNodeDetection的超时。在JUnit中涉及到许多配置和线程，但等待时间非常长，为100秒，在连续调用WaitFor时最终超时了。",
     "Impact": "TestDeadNodeDetection JUnit 超时超时",
-    "Link": ["hdfs-14654", "HDFS-13571"],
+    "Link": [
+      "hdfs-14654",
+      "HDFS-13571"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -3473,7 +3588,9 @@
   "HDFS-15285": {
     "Cause": "代码逻辑问题",
     "Impact": "考虑DataNode负载时，相同的距离和负载节点不会shuffle",
-    "Link": ["HDFS-14882"],
+    "Link": [
+      "HDFS-14882"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -3499,7 +3616,9 @@
   "HDFS-15298": {
     "Cause": "修复 HDFS-15217 中引入的 findbugs 警告",
     "Impact": "修复 HDFS-15217 中引入的 findbugs 警告",
-    "Link": ["HDFS-15217"],
+    "Link": [
+      "HDFS-15217"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -3603,7 +3722,9 @@
   "HDFS-15165": {
     "Cause": "HDFS-12130改变了 DU 命令的行为。它将检查权限和计算合并到一个步骤中。在此更改期间，当需要 getInodeAttributes 时，它只是使用 inode.getAttributes()。但是当配置了属性提供者类时，我们应该调用属性提供者配置的对象来获取 InodeAttributes 并在 checkPermission 期间使用返回的 InodeAttributes。 ",
     "Impact": "当 du 命令针对 Sentry 管理的 hdfs 路径运行时，会导致了 AccessControlException 的问题",
-    "Link": ["HDFS-12130"],
+    "Link": [
+      "HDFS-12130"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3655,7 +3776,10 @@
   "HDFS-14957": {
     "Cause": "代码逻辑问题",
     "Impact": "QuotaUsage 和 ContentSummary 中消耗的 INodeReference 空间不同",
-    "Link": ["HDFS-14499", "HDFS-8327"],
+    "Link": [
+      "HDFS-14499",
+      "HDFS-8327"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3785,7 +3909,9 @@
   "HDFS-15216": {
     "Cause": "-showprogress已弃用",
     "Impact": "但在fsck -help显示的用法中仍旧有-showprogress参数",
-    "Link": ["HDFS-7175"],
+    "Link": [
+      "HDFS-7175"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -3824,7 +3950,9 @@
   "HDFS-15212": {
     "Cause": "TestEncryptionZones.testVersionAndSuiteNegotiation 在trunk中失败",
     "Impact": "失败",
-    "Link": ["HADOOP-16885"],
+    "Link": [
+      "HADOOP-16885"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3915,7 +4043,9 @@
   "HDFS-15052": {
     "Cause": "WebHDFS getTrashRoot 由于创建 FileSystem 对象而导致 OOM",
     "Impact": "NN 不应该为自己创建文件系统，并且绝不能在远程用户的上下文中创建文件系统，否则缓存会爆炸",
-    "Link": ["HDFS-10756"],
+    "Link": [
+      "HDFS-10756"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -3967,7 +4097,9 @@
   "HDFS-15161": {
     "Cause": "当evictableMmapped或evictable size为0时，不要在ShortCircuitCache#close()中抛出NoSuchElementException。",
     "Impact": "当evictableMmapped或evictable size为0时，不要在ShortCircuitCache#close()中抛出NoSuchElementException。",
-    "Link": ["HDFS-14541"],
+    "Link": [
+      "HDFS-14541"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -4110,7 +4242,9 @@
   "HDFS-15095": {
     "Cause": "testDecommissionStatus是不稳定的，在HDFS-14854修复，但该修复代码被意外注释掉了",
     "Impact": "应该恢复注释代码",
-    "Link": ["HDFS-14858"],
+    "Link": [
+      "HDFS-14858"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4214,7 +4348,10 @@
   "HDFS-15032": {
     "Cause": "Balancer 无法通过 ObserverReadProxyProvider 联系不可用的 NN 时崩溃",
     "Impact": "Balancer崩溃",
-    "Link": ["HDFS-14162", "hdfs-14979"],
+    "Link": [
+      "HDFS-14162",
+      "HDFS-14979"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4240,7 +4377,9 @@
   "HDFS-15040": {
     "Cause": "HDFS-14835是一个类似的修复程序，它检查 SecreatManager 是否为空。但它没有涵盖这个案例。所以我们还需要检查运行状态。",
     "Impact": "当 SecretManager 未运行时，安全路由器也在运行。它不应该运行。",
-    "Link": ["HDFS-14835"],
+    "Link": [
+      "HDFS-14835"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4266,7 +4405,9 @@
   "HDFS-14973": {
     "Cause": "在HDFS-11384，添加了一种机制，使 Balancer/Mover 发出的getBlocks RPC 调用更加分散，以减轻 NameNode 上的负载，因为getBlocks可能非常昂贵，并且 Balancer 不应该影响正常的集群操作。不幸的是，该功能无法按与其运行。",
     "Impact": "Balancer getBlocks RPC dispersal does not function properly",
-    "Link": ["HDFS-11384"],
+    "Link": [
+      "HDFS-11384"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -4318,7 +4459,10 @@
   "HDFS-14992": {
     "Cause": "TestOfflineEditsViewer 在 Trunk 中失败",
     "Impact": "测试失败",
-    "Link": ["HDFS-14922", "HDFS-14924"],
+    "Link": [
+      "HDFS-14922",
+      "HDFS-14924"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -4370,7 +4514,12 @@
   "HDFS-14720": {
     "Cause": "如果block长度为Long.MAX_VALUE，则表示属于该block的文件从namenode中删除，DN得到删除文件后的命令。在这种情况下，应该忽略命令。",
     "Impact": "错误逻辑修改",
-    "Link": ["HDFS-13638", "HDFS-10453", "HDFS-13663", "HDFS-14794"],
+    "Link": [
+      "HDFS-13638",
+      "HDFS-10453",
+      "HDFS-13663",
+      "HDFS-14794"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4383,7 +4532,9 @@
   "HDFS-14807": {
     "Cause": "Set Times API, updates negative time on all negative values apart from -1.",
     "Impact": "Set Times API, updates negative time on all negative values apart from -1.",
-    "Link": ["HDFS-14529"],
+    "Link": [
+      "HDFS-14529"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4474,7 +4625,11 @@
   "HDFS-14730": {
     "Cause": "删除未使用的配置 dfs.web.authentication.filter",
     "Impact": "在HADOOP-16314之后，这个配置没有在任何地方使用，所以我建议废除它以避免误用。",
-    "Link": ["HADOOP-16314", "HDFS-14609", "HDFS-14609"],
+    "Link": [
+      "HADOOP-16314",
+      "HDFS-14609",
+      "HDFS-14609"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -4500,7 +4655,9 @@
   "HDFS-14492": {
     "Cause": "当删除快照时，相应的数据结构不会被删除",
     "Impact": "快照内存泄露",
-    "Link": ["HDFS-14910"],
+    "Link": [
+      "HDFS-14910"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Security",
@@ -4539,7 +4696,9 @@
   "HDFS-14909": {
     "Cause": "DFSNetworkTopology#chooseRandomWithStorageType() 不应减少已属于排除范围的排除节点的存储计数",
     "Impact": "计数错误",
-    "Link": ["HDFS-14913"],
+    "Link": [
+      "HDFS-14913"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -4578,7 +4737,9 @@
   "HDFS-14900": {
     "Cause": "HADOOP-16558从构建要求中删除了协议缓冲区，但 libhdfspp 需要 libprotobuf 和 libprotoc。-如果未安装协议缓冲区，则Pnative构建失败。",
     "Impact": "修复 hadoop-hdfs-native-client 的构建失败",
-    "Link": ["HADOOP-16558"],
+    "Link": [
+      "HADOOP-16558"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -4656,7 +4817,9 @@
   "HDFS-14494": {
     "Cause": "HDFS-14270在跟踪级别引入了客户端和服务器 StateId 的日志记录。不幸的是，其中一个参数alignmentContext.getLastSeenStateId()持有对 FSEdits 的锁定，即使禁用跟踪日志记录级别也会调用该锁定",
     "Impact": "即使禁用跟踪日志记录级别也会调用该锁定",
-    "Link": ["HDFS-14270"],
+    "Link": [
+      "HDFS-14270"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -4903,7 +5066,9 @@
   "HDFS-14759": {
     "Cause": "HDFS-13699将调试日志行更改为信息日志行，并在hadoop fs -cat操作期间打印此行",
     "Impact": "这使得很难确定日志行的结束位置和 catted 文件的开始位置，尤其是在将输出发送到工具进行解析时。",
-    "Link": ["HDFS-13699"],
+    "Link": [
+      "HDFS-13699"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -5124,7 +5289,9 @@
   "HDFS-14642": {
     "Cause": "HDFS-14053向 blockManager 引入了一个方法“processMisReplicatedBlocks”，fsck 使用它来调度错误复制的块进行复制。",
     "Impact": "方法应该返回它处理的块数，但它总是返回零，因为“已处理”在方法中永远不会增加。它还应该在每个“numBlocksPerIteration”中丢弃并重新获取写锁，但由于处理过程永远不会增加，它永远不会丢弃并重新获取写锁，从而有可能长时间持有写锁。",
-    "Link": ["HDFS-14053"],
+    "Link": [
+      "HDFS-14053"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -5176,7 +5343,9 @@
   "HDFS-14514": {
     "Cause": "1. 重构后的代码中，'off'参数已经完全去掉，表示不需要它，但现在使用'len'。2.在2.x代码中，off和len是方法的参数，但从未使用过，我认为需要使用“len”，否则会导致这个bug。",
     "Impact": "在Hadoop 2中，当一个文件在加密区被打开进行写入，拍摄快照并追加时，快照中读出的文件大小要比列表大小大。这种情况即使在启用了不可更改的快照HDFS-11402时也会发生。",
-    "Link": ["HDFS-11402"],
+    "Link": [
+      "HDFS-11402"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -5189,7 +5358,9 @@
   "HDFS-14482": {
     "Cause": "HDFS-14304在创建环境之后但在检查它是否为空之前，在 getJNIEnv 中添加了对 initCachedClasses 的调用。在getJNIEnv()创建环境失败的情况下，它返回NULL，然后我们在第555行调用initCachedClasses()时崩溃",
     "Impact": "使用带有错误类路径的 libhdfs 时崩溃",
-    "Link": ["hdfs-14304"],
+    "Link": [
+      "hdfs-14304"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Reliability",
@@ -5241,7 +5412,9 @@
   "HDFS-14416": {
     "Cause": "HDFS-14327添加了 dfs.client.failover.resolver.useFQDN 并且它破坏了 TestHdfsConfigFields。",
     "Impact": "需要修复字段 dfs.client.failover.resolver.useFQDN 的 TestHdfsConfigFields",
-    "Link": ["HDFS-14327"],
+    "Link": [
+      "HDFS-14327"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Availability",
@@ -5319,7 +5492,9 @@
   "HDFS-16334": {
     "Cause": "`dfs.namenode.acls.enabled`在HDFS-13505之后被默认设置为`true`。",
     "Impact": "可以改进文档以避免混淆",
-    "Link": ["HDFS-13505"],
+    "Link": [
+      "HDFS-13505"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -5332,7 +5507,9 @@
   "HDFS-16328": {
     "Cause": "`dfs.disk.balancer.enabled`在HDFS-13153之后被默认启用",
     "Impact": "可以改进文档以避免混淆",
-    "Link": ["HDFS-13153"],
+    "Link": [
+      "HDFS-13153"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Usability",
@@ -5343,8 +5520,8 @@
     "comment": ""
   },
   "HDFS-16329": {
-    "Cause": "纠正pmem缓存的声明，以反映缓存的持久性支持",
-    "Impact": "改进文档",
+    "Cause": "",
+    "Impact": "",
     "Link": [],
     "Classification": {
       "Significance": "Negligible",
@@ -5956,7 +6133,9 @@
   "HDFS-14466": {
     "Cause": "最近，我们将 hadoop 库从 2.7.7 升级到了 3.2.0。",
     "Impact": "此问题发生在更新后。当我们使用位置 'webhdfs://hadoop-master:50070/user/hive/warehouse/test_part/dt=1' 调用 FileSystem.listLocatedStatus 时，内部调用两个版本不兼容",
-    "Link": ["HDFS-14323"],
+    "Link": [
+      "HDFS-14323"
+    ],
     "Classification": {
       "Significance": "Vital",
       "Quality": "Compatibility",

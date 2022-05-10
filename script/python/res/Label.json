@@ -1,6 +1,9 @@
 {
   "Classification": {
-    "Significance": ["Vital", "Negligible"],
+    "Significance": [
+      "Vital",
+      "Negligible"
+    ],
     "Quality": [
       "Availability",
       "Reliability",
@@ -63,13 +66,15 @@
       "Datanode": "心跳、数据块汇报、数据块的操作",
       "HA": "NN的高可用、JournalNodes",
       "SnapShot": "快照",
-      "EC": "Erasure-Coding 纠错码",
       "Cache": "缓存",
       "LIBS": "外部依赖库",
-      "Protocol": "协议",
-      "Hardware": "硬件相关",
       "DOCS": "文档",
-      "FSCK": "fsck命令相关"
+      "FSCK": "fsck命令相关",
+      "HttpFS": "中转服务器，提供restful接口来操作hdfs",
+      "WebHDFS": "Clientd的一种",
+      "EC": "Erasure-Coding 纠错码",
+      "RBF": "协议",
+      "Disk-Balancer": "硬件相关"
     },
     "Consequence": {
       "Build-Error": "编译或构建失败",

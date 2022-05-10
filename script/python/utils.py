@@ -2,6 +2,8 @@ import logging
 from tqdm import tqdm
 import pymysql as pymysql
 import json
+import matplotlib.pyplot as plt
+import numpy as np
 
 LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
 DATE_FORMAT = "%Y/%m/%d %H:%M:%S %p"
@@ -221,3 +223,190 @@ def Load_Research_Classify(file_path):
         logging.info("Start commit data to db")
         connection.commit()
         logging.info("Commit data success")
+
+
+def get_analysis_data():
+    connection = pymysql.connect(host='101.43.55.140', user='leqing', passwd='Ww0810083142', database='HDFSBUGDB',
+                                 port=3306, charset='utf8')
+    logging.info("Connect to 101.43.55.140:HDFSBUGDB Database success")
+    with connection:
+        with connection.cursor() as cursor:
+
+            sql_Label = "SELECT `Name`,`id` FROM `Label` ORDER BY `id`"
+            cursor.execute(sql_Label)
+            Label = {}
+            result_Label = cursor.fetchall()
+            for t in result_Label:
+                Label[t[1]] = t[0]
+
+            sql_Classify = "select I.IssueKey as IssueKey, C.Component as Component,I.CreatedTime from IssueInfo I join HDFSBUGDB.Classify C on I.id = C.IssueInfo_id"
+            cursor.execute(sql_Classify)
+            result_Classify = cursor.fetchall()
+            logging.info(result_Classify)
+            Classify = []
+            num = 0
+            for t in result_Classify:
+                try:
+                    Classify.append({
+                        "IssueKey": t[0],
+                        "Component": Label[t[1]],
+                        "CreatedTime": t[2]
+                    })
+                except KeyError:
+                    num = num + 1
+
+            logging.info("Label映射表：{}".format(Label))
+            logging.info("最终返回结果：{}".format(Classify))
+            logging.info("未分类的漏洞数量：{}".format(num))
+            return Classify
+
+
+def pic_evolution():
+    classify_List = get_analysis_data()
+    data = {
+        "Datanode": 0,
+        "Namenode": 0,
+        "Client": 0,
+        "RBF": 0,
+        "SnapShot": 0,
+        "EC": 0,
+        "HA": 0,
+        "LIBS": 0,
+        "DOCS": 0,
+        "Cache": 0,
+        "HttpFS": 0,
+        "Disk-Balancer": 0,
+        "WebHDFS": 0,
+        "FSCK": 0,
+    }
+    Time_20190301_20190831 = data.copy()
+    Time_20190901_20200229 = data.copy()
+    Time_20200301_20200831 = data.copy()
+    Time_20200901_20210229 = data.copy()
+    Time_20210301_20210831 = data.copy()
+    Time_20210901_22020301 = data.copy()
+
+    # 3月01 至 8月31
+    List_3_8 = ["Mar", "Apr", "May", "Jun", "Jul", "Aug"]
+
+    # 9月01 至 12月31
+    List_9_12 = ["Sep", "Oct", "Nov", "Dec"]
+
+    # 1月01 至 2月29
+    List_1_2 = ["Jan", "Feb"]
+
+    for classify in classify_List:
+        temp = str(classify["CreatedTime"]).split("/")
+        month = temp[1]
+        year = temp[2].split(" ")[0]
+        if year == "19":
+            if month in List_3_8:
+                Component = classify["Component"]
+                Time_20190301_20190831[Component] += 1
+            elif month in List_9_12:
+                Component = classify["Component"]
+                Time_20190901_20200229[Component] += 1
+            else:
+                raise
+        elif year == "20":
+            if month in List_1_2:
+                Component = classify["Component"]
+                Time_20190901_20200229[Component] += 1
+            elif month in List_3_8:
+                Component = classify["Component"]
+                Time_20200301_20200831[Component] += 1
+            elif month in List_9_12:
+                Component = classify["Component"]
+                Time_20200901_20210229[Component] += 1
+            else:
+                raise
+        elif year == "21":
+            if month in List_1_2:
+                Component = classify["Component"]
+                Time_20200901_20210229[Component] += 1
+            elif month in List_3_8:
+                Component = classify["Component"]
+                Time_20210301_20210831[Component] += 1
+            elif month in List_9_12:
+                Component = classify["Component"]
+                Time_20210901_22020301[Component] += 1
+            else:
+                raise
+        elif year == "22":
+            if month in List_1_2:
+                Component = classify["Component"]
+                Time_20210901_22020301[Component] += 1
+            else:
+                raise
+        else:
+            raise
+
+    # logging.info(Time_20190301_20190831)
+    # logging.info(Time_20190901_20200229)
+    # logging.info(Time_20200301_20200831)
+    # logging.info(Time_20200901_20210229)
+    # logging.info(Time_20210301_20210831)
+    # logging.info(Time_20210901_22020301)
+
+    Time_list = []
+    Time_list.append(Time_20190301_20190831)
+    Time_list.append(Time_20190901_20200229)
+    Time_list.append(Time_20200301_20200831)
+    Time_list.append(Time_20200901_20210229)
+    Time_list.append(Time_20210301_20210831)
+    Time_list.append(Time_20210901_22020301)
+
+    logging.info(Time_list)
+    sum = 0
+    for t in Time_list:
+        for a, b in t.items():
+            sum += b
+
+    logging.info("数据总值：{}".format(sum))
+
+    y_map = {
+        "Datanode": [],
+        "Namenode": [],
+        "Client": [],
+        "RBF": [],
+        "SnapShot": [],
+        "EC": [],
+        "HA": [],
+        "LIBS": [],
+        "DOCS": [],
+        "Cache": [],
+        "HttpFS": [],
+        "Disk-Balancer": [],
+        "WebHDFS": [],
+        "FSCK": [],
+    }
+
+    for t in Time_list:
+        for k, v in t.items():
+            y_map[k].append(v)
+
+    logging.info(y_map)
+
+    # figure for evolution.jpg
+    # plt.figure(figsize=(11,8))
+
+    # figure for EC_RBF_DB.jpg namenode_datanode_client.jpg
+    plt.figure(figsize=(8, 6))
+    x = ["19/03-19/09", "19/09-20/03", "20/03-20/09", "20/09-21/03", "21/03-21/09", "21/09-22/03"]
+    for label, y_value in y_map.items():
+        # plt.plot(x, y_value, label=label)
+        if (label in ["EC", "RBF", "Disk-Balancer"]):
+            plt.plot(x, y_value, label=label)
+        # if (label in ["Namenode", "Datanode", "Client"]):
+        #     plt.plot(x, y_value, label=label)
+
+    plt.legend()
+    ax = plt.gca()  # gca:get current axis得到当前轴
+    # 设置图片的右边框和上边框为不显示
+    ax.spines['right'].set_color('none')
+    ax.spines['top'].set_color('none')
+
+    # plt.savefig('./namenode_datanode_client.jpg')
+    plt.savefig('./EC_RBF_DB.jpg')
+    # plt.savefig('./evolution.jpg')
+    plt.show()

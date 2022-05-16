@@ -26,11 +26,16 @@ sudo cat /etc/mysql/debian.cnf
 # 创建用户 参考：https://blog.51cto.com/niuben/3027422
 sudo mysql
 
-mysql> CREATE USER 'leqing'@'%' IDENTIFIED BY 'Ww0810083142';
-mysql> GRANT ALL ON *.* TO 'leqing'@'%';
+mysql>
+CREATE USER 'leqing'@'%' IDENTIFIED BY 'Ww0810083142';
+mysql>
+GRANT ALL ON *.* TO 'leqing'@'%';
 
-mysql> use mysql;
-mysql> select user,host from user;
+mysql>
+use mysql;
+mysql>
+select user, host
+from user;
 
 # 开启远程服务
 sudo vi /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -80,14 +85,25 @@ ps -aux | grep redis
 
 tomcat 9 安装在 mac 上，`brew install tomcat@9` ，千万不要尝试 tomcat10，会变得不幸！
 
+### 安装
+
+```shell
+# Mac 安装
+brew install tomcat@9
+
+# Ubuntu 安装
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz
+tar -xzvf apache-tomcat-9.0.62.tar.gz
+
+# 查看logs/catalina.2022-xx-xx.log日志如果报错： The Apache Tomcat Native library which allows using OpenSSL was not found，则安装：
+sudo apt-get install libtcnative-1
+```
+
 ### IDEA
 
 Idea 配置时选择 `Tomcat Server Local`，然后 `Tomcat Home`选择 `/opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec`。
 
 ```shell
-# 安装
-brew install tomcat@9
-
 # 查看Tomcat Home
 brew ls tomcat@9
 
@@ -100,7 +116,8 @@ brew ls tomcat@9
 当 war 包部署到`Tomcat Home/webapps`时，会自动解包，然后通过：`localhost:端口号/war包名`即可访问。
 
 ```shell
-cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec
+cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec/bin # mac
+cd  apache-tomcat-9.0.62 # ubuntu
 vim conf/server.xml
 # vim 通过 /8080 搜索到默认端口号，修改为任意你想要的端口，此处我们使用8081
 ```
@@ -121,15 +138,49 @@ IDEA 点击 Build，选择 Build Artifacts...
 
 > war 包已提供：hdfsbugdb-server/hdfsbugdb-server.war
 
-我们将 war 包复制，粘贴到 `Tomcat Home/webapps` 。然后启动 tomcat：
+一、Mac 上，我们将 war 包复制，粘贴到 `Tomcat Home/webapps`。
+
+二、Ubuntu 服务器上，需要通过scp命令上传到服务器：
 
 ```shell
-cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec/bin
+# 将jar包上传到服务器的webapps目录下
+scp hdfsbugdb-server.war ubuntu@101.43.55.140:~/apache-tomcat-9.0.62/webapps/
+
+# java -version 11
+sudo apt install openjdk-11-jdk
+sudo update-alternatives --config java
+```
+
+此时，在启动tomcat之后，可以通过`http://id_address:8081/hdfsbugdb-server`来访问 war 包了。
+
+#### vue前端部署到 tomcat
+
+首先需要打包，使用 `yarn build`命令，将前端打包为一个dist静态文件夹。
+
+同理，Mac上直接复制，Ubuntu上需要通过scp命令上传。
+
+为了在根目录访问，上传到webapps/ROOT文件夹，需要情况原本该文件夹中的内容，但注意需要保留其中的WEB-INF文件夹。
+
+```shell
+cd  apache-tomcat-9.0.62/webapps/ROOT
+# 删除所有内容，保留 WEB-INF 文件夹，没有这个无法访问
+
+# dist内的所有东西上传到webapps的ROOT文件夹下
+cd dist
+scp -r  * ubuntu@101.43.55.140:~/apache-tomcat-9.0.62/webapps/ROOT
+```
+
+### 启动关闭tomcat
+
+```shell
+# 启动、关闭tomcat
+cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec/bin # mac
+cd  apache-tomcat-9.0.62/bin # ubuntu
 ./startup.sh # 启动
 ./shutdown.sh # 关闭
 ```
 
-此时，可以通过`http://localhost:8081/hdfsbugdb-server`来访问 war 包了。
+点击访问：http://101.43.55.140:8081
 
 # 前置知识
 
@@ -145,27 +196,28 @@ Spring 主要有两个概念：控制反转 IoC 和切片
 
 ```java
 import com.Person
+
 public Class School{
-		private String address;
-  	private Person person;
-}
+private String address;
+private Person person;
+        }
 ```
 
 同时，我们知道，一个 Java 类可以有多个构造函数：
 
 ```java
 public Class School{
-		private String address;
-  	private Person person;
-  	// 无参构造
-  	public School(){}
+private String address;
+private Person person;
+// 无参构造
+public School(){}
 
-  	// 有参构造
-  	public School(String address,Person person){
-      this.address = address;
-      this.person = person;
-    }
-}
+// 有参构造
+public School(String address,Person person){
+        this.address=address;
+        this.person=person;
+        }
+        }
 ```
 
 首先我们谈论**有参构造**，此时可以说，School 这个类，依赖两个东西：
@@ -176,12 +228,12 @@ public Class School{
 因此，当我们使用有参构造来实例化 School 类的时候，需要传入这两个东西：
 
 ```java
-public class test(){
-  	public static void main(String[] args) {
-      String address = "电子科技大学";
-      Person person = new Person("leqing",18);
-      School school = new School(address,person);
-  }
+public class test() {
+    public static void main(String[] args) {
+        String address = "电子科技大学";
+        Person person = new Person("leqing", 18);
+        School school = new School(address, person);
+    }
 }
 ```
 
@@ -202,39 +254,39 @@ public class test(){
 
 ```java
 public Class School{
-		private String address;
-  	private Person person;
-  	// 无参构造
-  	public School(){}
+private String address;
+private Person person;
+// 无参构造
+public School(){}
 
-    public String getAddress() {
+public String getAddress(){
         return address;
-    }
-    public void setCode(String address) {
-        this.address = address;
-    }
+        }
+public void setCode(String address){
+        this.address=address;
+        }
 
-    public Person getPerson() {
+public Person getPerson(){
         return person;
-    }
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-}
+        }
+public void setPerson(Person person){
+        this.person=person;
+        }
+        }
 ```
 
 此次，我们在实例化 School 的时候，即便采用无参构造来实例化，也可以安全的通过 set 来为它注入依赖：
 
 ```java
-public class test(){
-  	public static void main(String[] args) {
-      String address = "电子科技大学";
-      Person person = new Person("leqing",18);
+public class test() {
+    public static void main(String[] args) {
+        String address = "电子科技大学";
+        Person person = new Person("leqing", 18);
 
-      School school = new School();
-      school.setAddress(address);
-      school.setPerson(person)
-  }
+        School school = new School();
+        school.setAddress(address);
+        school.setPerson(person)
+    }
 }
 ```
 
@@ -265,12 +317,13 @@ public class test(){
 > 注意：为了代码的美观，删去了 spring 配置文件头部的重复内容。
 
 ```xml
+
 <beans>
     <bean id="personId" class="com.wang.Person">
         <property name="name" value="leqing"/>
-      	<property name="age" value="18"/>
+        <property name="age" value="18"/>
     </bean>
-    	<bean id="school" class="com.wang.School">
+    <bean id="school" class="com.wang.School">
         <property name="address" value="电子科技大学"/>
         <property name="person" ref="personId"/>
     </bean>
@@ -280,13 +333,16 @@ public class test(){
 已知 new 的时候可以传入不同的值，当然此处可以实现，id 唯一，但 name 可以有多种：
 
 ```xml
+
 <beans>
-  	<--! <bean personId> 同上-->
+    <--!
+    <bean personId>
+    同上-->
     <bean name="schoolName1" class="com.wang.School">
         <property name="address" value="电子科技大学"/>
         <property name="person" ref="personId"/>
     </bean>
-      <bean name="SchoolName2" class="com.wang.School">
+    <bean name="SchoolName2" class="com.wang.School">
         <property name="address" value="四川大学"/>
         <property name="person" ref="personId"/>
     </bean>
@@ -296,15 +352,15 @@ public class test(){
 #### ② 获取 bean 实例
 
 ```java
-public class test(){
-  	public static void main(String[] args) {
+public class test() {
+    public static void main(String[] args) {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
         School schoolById = (School) applicationContext.getBean("school");
         School schoolByName1 = (School) applicationContext.getBean("schoolName1");
-      	School schoolByName2 = (School) applicationContext.getBean("schoolName1");
+        School schoolByName2 = (School) applicationContext.getBean("schoolName1");
 
-      	schoolById.getAddress() //使用
-  }
+        schoolById.getAddress() //使用
+    }
 }
 ```
 
@@ -329,63 +385,65 @@ public class test(){
 
 - **步骤一**：类管理注解：@Component、@Repository、@Service、@Controller。效果相同，区分只是为了更易读。
 
-  - 设置 id：@Component(value="idValue")，根据 java 注解的语法，`value=`可以省略：@Component("idValue")。
+    - 设置 id：@Component(value="idValue")，根据 java 注解的语法，`value=`可以省略：@Component("idValue")。
 
-    如果直接使用@Component()，默认 idValue 为当前类名，且首字母小写。
+      如果直接使用@Component()，默认 idValue 为当前类名，且首字母小写。
 
-  - 设置 class：无需设置，因为你在哪个类使用该注解，当然就是哪个类的 class 了！
+    - 设置 class：无需设置，因为你在哪个类使用该注解，当然就是哪个类的 class 了！
 
 - **步骤二**：注入数据注解
 
-  - bean 类型数据：
-    - @Autowired：@Autowired 只使用 byType 方式进行装配，若是同时存在相同 class 类型的 bean，则无法装配！不过在纯注解开发中，不会同时存在 class 类型的 bean。只有 xml 和注解方式同时使用时才会出现。示例见 OneNote。
-    - @Qualifier：使用@Qualifier 指定对应 bean 的 id 进行辅助精确选择！
-    - @Resource：@Resource 结合了@Autowired 和@Qualifier 的方法，不过他是默认以 byname 的方式实现！且不是 spring 提供的，而是 java 自带的注解。
-  - 基本类型和 String 类型：@Value
-  - 集合类型：只能用 XML 进行配置！
-  - 改变作用范围的：@Scope
+    - bean 类型数据：
+        - @Autowired：@Autowired 只使用 byType 方式进行装配，若是同时存在相同 class 类型的 bean，则无法装配！不过在纯注解开发中，不会同时存在 class 类型的 bean。只有 xml
+          和注解方式同时使用时才会出现。示例见 OneNote。
+        - @Qualifier：使用@Qualifier 指定对应 bean 的 id 进行辅助精确选择！
+        - @Resource：@Resource 结合了@Autowired 和@Qualifier 的方法，不过他是默认以 byname 的方式实现！且不是 spring 提供的，而是 java 自带的注解。
+    - 基本类型和 String 类型：@Value
+    - 集合类型：只能用 XML 进行配置！
+    - 改变作用范围的：@Scope
 
 ```java
 // School依赖于Person，因此Person必须要交给Spring管理。
 @Component
 public Class Person{
-  // 注入依赖
-  @Value("leqing")
-  private String name;
-  @Value(18)
-  private int age;
+// 注入依赖
+@Value("leqing")
+private String name;
+@Value(18)
+private int age;
 
-  public String printPerson(){
-    return name + age;
-  }
-}
+public String printPerson(){
+        return name+age;
+        }
+        }
 
 // School交给spring管理
 @Component
 public Class School{
 
-  	// 注入依赖
-  	@Value("电子科技大学")
-		private String address;
-  	@Autowired
-  	private Person person;
+// 注入依赖
+@Value("电子科技大学")
+private String address;
+@Autowired
+private Person person;
 
-  	public String printSchool(){
-      return person.printPerson() + address;
-    }
-}
+public String printSchool(){
+        return person.printPerson()+address;
+        }
+        }
 ```
 
 #### ② 获取类实例
 
 ```java
-public class test(){
-  	@Autowired
-  	private ApplicationContext applicationContext;
-  	public static void main(String[] args) {
+public class test() {
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    public static void main(String[] args) {
         School schoolById = (School) applicationContext.getBean("school");
-      	schoolById.printSchool()
-  }
+        schoolById.printSchool()
+    }
 }
 ```
 
@@ -399,7 +457,8 @@ public class test(){
 
 在传统的 JavaWeb 中，MVC 的经典实现是 JSP+servlet+javaBean。其中 jsp 就是 View，javabean 就是 Model 来实现业务，servlet 就是 Controller 控制器。
 
-此时前后端是杂糅在一个项目中的，jsp 文件都放在 web 文件夹下，且 web 项目都有一个`web.xml`配置文件，在其中我们需要配置若干对`<servlet>`和`<servlet-mapping>`，前者是一个继承了 Servlet 类的 java 类，后者是拦截路径，即拦截到 A 路径，就让 servletA 处理。
+此时前后端是杂糅在一个项目中的，jsp 文件都放在 web 文件夹下，且 web 项目都有一个`web.xml`配置文件，在其中我们需要配置若干对`<servlet>`和`<servlet-mapping>`，前者是一个继承了
+Servlet 类的 java 类，后者是拦截路径，即拦截到 A 路径，就让 servletA 处理。
 
 ```xml
 <!-- web.xml -->
@@ -467,6 +526,7 @@ SpringMVC 的配置文件主要需要配置三个东西：
 此处仅讲解 RestFul 前后端分离的项目，且使用注解开发的情况，配置如下：
 
 ```xml
+
 <beans>
     <!-- 自动扫描包，让指定包下的注解生效,由IOC容器统一管理 -->
     <!-- 1. 激活已经在spring中注册的bean（包括XML和注解） 2. 自动扫描，让指定包下的注解生效（实例化bean、注入bean的依赖参数）-->
@@ -490,16 +550,17 @@ SpringMVC 的配置文件主要需要配置三个东西：
 注解开发时，除了 Spring 的组件与依赖注入相关的注解，如@Component、@Autowired、@Value 等，上文都已经提及，还有 SpringMVC 的请求映射与参数的注解。
 
 - 请求映射
-  - @RequestMapping：基本注解，可通用，基于不同的请求类型有很多特定的子注解
-    - @GetMapping
-    - @PostMapping
-    - ...
+    - @RequestMapping：基本注解，可通用，基于不同的请求类型有很多特定的子注解
+        - @GetMapping
+        - @PostMapping
+        - ...
 - 参数注解
-  - @RequestParam
-  - @PathVariable
+    - @RequestParam
+    - @PathVariable
 - RestFul 注解：@ResponseBody、@RestController
 
-当使用 RestFul 风格的时候，可以直接用@ResponseBody 注解类或方法，此时由容器自动处理 Java 对象的转换并返回。容器内部通过 HttpMessageConverter 将方法返回的 Java 对象转换为 JSON 字符串后写入**Response 对象的 body 数据区**。
+当使用 RestFul 风格的时候，可以直接用@ResponseBody 注解类或方法，此时由容器自动处理 Java 对象的转换并返回。容器内部通过 HttpMessageConverter 将方法返回的 Java 对象转换为 JSON
+字符串后写入**Response 对象的 body 数据区**。
 
 当然，可以直接使用@RestController 来代替@ResponseBody 和@Controller。
 
@@ -517,11 +578,12 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
   > BookMapper.java：接口
 
-- **dto**：往往会构建一个 Result.java 类，作为 controller 的返回对象，此外，有时候当我们联表查询时，查询的结果显然无法用 pojo 的实体类接受，因此在此构建诸如 BookLibrary.java，作为联表（join on）查询 Book 和 Library 数据库的结果的接收对象。
+- **dto**：往往会构建一个 Result.java 类，作为 controller 的返回对象，此外，有时候当我们联表查询时，查询的结果显然无法用 pojo 的实体类接受，因此在此构建诸如
+  BookLibrary.java，作为联表（join on）查询 Book 和 Library 数据库的结果的接收对象。
 
 - **service**：存放业务处理的接口及其实现类
 
-  - **Impl**：实现类放在 Impl 文件夹下
+    - **Impl**：实现类放在 Impl 文件夹下
 
   > BookService.java：接口，业务方法
   >
@@ -531,29 +593,29 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 - **resources**
 
-  - **mapper：**mybatis 的映射器文件，可以理解为对接口 BookMapper.java 的实现。原本我们使用 implements 来实现一个接口，但在此处我们使用 BookMapper.xml 来实现。
+    - **mapper：**mybatis 的映射器文件，可以理解为对接口 BookMapper.java 的实现。原本我们使用 implements 来实现一个接口，但在此处我们使用 BookMapper.xml 来实现。
 
-    > BookMapper.xml：实现对数据库的直接操作，如增删改查
+      > BookMapper.xml：实现对数据库的直接操作，如增删改查
 
-  - **properties**：把配置的属性和值抽离出来，在配置文件中可以通过 `${key}`来取出`value`。
+    - **properties**：把配置的属性和值抽离出来，在配置文件中可以通过 `${key}`来取出`value`。
 
-    > db.properties
-    >
-    > redis.properties
+      > db.properties
+      >
+      > redis.properties
 
-  - **spring**：存放 Spring、SpringMVC、mybatis、redis 等的配置文件
+    - **spring**：存放 Spring、SpringMVC、mybatis、redis 等的配置文件
 
-    > applicationContext.xml：用于导入\*properties，整合导入 spring-mybatis.xml、spring-redis.xml、spring-service.xml
-    >
-    > spring-mybatis.xml：mybatis 的核心配置文件
-    >
-    > spring-redis.xml：redis 的核心配置文件
-    >
-    > spring-service：用于开启 com.wang.service.impl 文件夹下的注解扫描
-    >
-    > springmvc-servlet.xml：Springmvc 的配置文件，① 开启 com.wang.controller 文件夹下的注解扫描 ② 启用 springmvc 的注解功能
+      > applicationContext.xml：用于导入\*properties，整合导入 spring-mybatis.xml、spring-redis.xml、spring-service.xml
+      >
+      > spring-mybatis.xml：mybatis 的核心配置文件
+      >
+      > spring-redis.xml：redis 的核心配置文件
+      >
+      > spring-service：用于开启 com.wang.service.impl 文件夹下的注解扫描
+      >
+      > springmvc-servlet.xml：Springmvc 的配置文件，① 开启 com.wang.controller 文件夹下的注解扫描 ② 启用 springmvc 的注解功能
 
-    此外，还有其余的配置：generatorConfig.xml、logback.xml
+      此外，还有其余的配置：generatorConfig.xml、logback.xml
 
 - **web/WEB-INF/web.xml**：web 项目的文件配置
 
@@ -578,6 +640,7 @@ SpringMVC 的配置文件主要需要配置三个东西：
 注意，spring 只能使用一次 property-placeholder：
 
 ```xml
+
 <context:property-placeholder location="classpath:properties/*.properties"/>
 ```
 
@@ -593,3 +656,4 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 - 项目部署，可以改为 docker 部署。
 - 若项目设计增删改，需要在 redis 中添加删除逻辑，否则缓存与数据库中内容不一致。
+- 目前部署tomcat之后，刷新之后404，因为vue router使用history路由模式的原因。

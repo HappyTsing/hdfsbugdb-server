@@ -95,7 +95,7 @@ brew install tomcat@9
 wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.62/bin/apache-tomcat-9.0.62.tar.gz
 tar -xzvf apache-tomcat-9.0.62.tar.gz
 
-# 查看logs/catalina.2022-xx-xx.log日志如果报错： The Apache Tomcat Native library which allows using OpenSSL was not found，则安装：
+# 服务启动后如果后端接口404，查看logs/catalina.2022-xx-xx.log日志，若报错： The Apache Tomcat Native library which allows using OpenSSL was not found，则安装：
 sudo apt-get install libtcnative-1
 ```
 
@@ -107,19 +107,22 @@ Idea 配置时选择 `Tomcat Server Local`，然后 `Tomcat Home`选择 `/opt/ho
 # 查看Tomcat Home
 brew ls tomcat@9
 
-# 找到libexec结尾
+# Tomcat Home为libexec结尾的内容，如下：
 /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec/
 ```
 
 ### war 包部署到 tomcat
 
-当 war 包部署到`Tomcat Home/webapps`时，会自动解包，然后通过：`localhost:端口号/war包名`即可访问。
+当 war 包部署到`Tomcat Home/webapps`时，会自动解包，然后通过：`IP_ADDRESS:端口号/war包名`即可访问。
 
 ```shell
-cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec/bin # mac
+# 进入tomcat home
+cd /opt/homebrew/Cellar/tomcat@9/9.0.56_1/libexec # mac
 cd  apache-tomcat-9.0.62 # ubuntu
+
+# 修改配置文件，将端口号修改为8081（默认8080）
 vim conf/server.xml
-# vim 通过 /8080 搜索到默认端口号，修改为任意你想要的端口，此处我们使用8081
+# vim 通过 /8080 搜索
 ```
 
 首先我们需要将项目打成 war 包。IDEA 进入 File - Project Structure - Artifacts。
@@ -144,6 +147,8 @@ IDEA 点击 Build，选择 Build Artifacts...
 
 ```shell
 # 将jar包上传到服务器的webapps目录下
+scp local_file name@ip:server_dir_path
+
 scp hdfsbugdb-server.war ubuntu@101.43.55.140:~/apache-tomcat-9.0.62/webapps/
 
 # java -version 11
@@ -151,21 +156,21 @@ sudo apt install openjdk-11-jdk
 sudo update-alternatives --config java
 ```
 
-此时，在启动tomcat之后，可以通过`http://id_address:8081/hdfsbugdb-server`来访问 war 包了。
+此时，在启动tomcat之后，可以通过`http://IP_ADDRESS:8081/hdfsbugdb-server`来访问 war 包了。
 
-#### vue前端部署到 tomcat
+### vue前端部署到 tomcat
 
 首先需要打包，使用 `yarn build`命令，将前端打包为一个dist静态文件夹。
 
-同理，Mac上直接复制，Ubuntu上需要通过scp命令上传。
+和部署war包类似，Mac上直接复制，Ubuntu上需要通过scp命令上传。
 
 为了在根目录访问，上传到webapps/ROOT文件夹，需要情况原本该文件夹中的内容，但注意需要保留其中的WEB-INF文件夹。
 
 ```shell
 cd  apache-tomcat-9.0.62/webapps/ROOT
-# 删除所有内容，保留 WEB-INF 文件夹，没有这个无法访问
+# 删除所有内容，保留 WEB-INF 文件夹，没有该文件夹无法访问
 
-# dist内的所有东西上传到webapps的ROOT文件夹下
+# dist内的所有东西上传到webapps的ROOT文件夹下,-r上传文件夹
 cd dist
 scp -r  * ubuntu@101.43.55.140:~/apache-tomcat-9.0.62/webapps/ROOT
 ```

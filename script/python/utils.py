@@ -391,11 +391,12 @@ def pic_evolution():
     # plt.figure(figsize=(11,8))
 
     # figure for EC_RBF_DB.jpg namenode_datanode_client.jpg
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(7, 5))
     x = ["19/03-19/09", "19/09-20/03", "20/03-20/09", "20/09-21/03", "21/03-21/09", "21/09-22/03"]
     for label, y_value in y_map.items():
         # plt.plot(x, y_value, label=label)
-        if (label in ["EC", "RBF", "Disk-Balancer"]):
+#         if (label in ["EC", "RBF", "Disk-Balancer"]):
+        if (label in ["Namenode"]):
             plt.plot(x, y_value, label=label)
         # if (label in ["Namenode", "Datanode", "Client"]):
         #     plt.plot(x, y_value, label=label)
@@ -407,6 +408,6 @@ def pic_evolution():
     ax.spines['top'].set_color('none')
 
     # plt.savefig('./namenode_datanode_client.jpg')
-    plt.savefig('./EC_RBF_DB.jpg')
+    plt.savefig('./test.jpg')
     # plt.savefig('./evolution.jpg')
     plt.show()

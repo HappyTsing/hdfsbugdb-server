@@ -129,21 +129,21 @@ vim conf/server.xml
 
 红框 ① 中，Exploded 是文件夹形式，Archive 就是 war 包形式，选择 Archive。红框 ② 的地方可以修改 war 包的名字，改为 hdfsbugdb-server。
 
-![war包步骤1](https://gitee.com/happytsing/figure-bed/raw/master/img/202204302159101.png)
+![war包步骤1](./img/war包步骤1.png)
 
 IDEA 点击 Build，选择 Build Artifacts...
 
-![war包步骤2 build](https://gitee.com/happytsing/figure-bed/raw/master/img/202204302202131.png)
+![war包步骤2 build](./img/war包步骤2.png)
 
 在跳出来的选项中选择 Archive，然后在编译出来的 out 文件夹下可以找到 war 包。
 
-![war包位置](https://gitee.com/happytsing/figure-bed/raw/master/img/202204302203861.png)
+![war包位置](./img/war包位置.png)
 
 > war 包已提供：hdfsbugdb-server/hdfsbugdb-server.war
 
 一、Mac 上，我们将 war 包复制，粘贴到 `Tomcat Home/webapps`。
 
-二、Ubuntu 服务器上，需要通过scp命令上传到服务器：
+二、Ubuntu 服务器上，需要通过 scp 命令上传到服务器：
 
 ```shell
 # 将jar包上传到服务器的webapps目录下
@@ -156,15 +156,15 @@ sudo apt install openjdk-11-jdk
 sudo update-alternatives --config java
 ```
 
-此时，在启动tomcat之后，可以通过`http://IP_ADDRESS:8081/hdfsbugdb-server`来访问 war 包了。
+此时，在启动 tomcat 之后，可以通过`http://IP_ADDRESS:8081/hdfsbugdb-server`来访问 war 包了。
 
-### vue前端部署到 tomcat
+### vue 前端部署到 tomcat
 
-首先需要打包，使用 `yarn build`命令，将前端打包为一个dist静态文件夹。
+首先需要打包，使用 `yarn build`命令，将前端打包为一个 dist 静态文件夹。
 
-和部署war包类似，Mac上直接复制，Ubuntu上需要通过scp命令上传。
+和部署 war 包类似，Mac 上直接复制，Ubuntu 上需要通过 scp 命令上传。
 
-为了在根目录访问，上传到webapps/ROOT文件夹，需要情况原本该文件夹中的内容，但注意需要保留其中的WEB-INF文件夹。
+为了在根目录访问，上传到 webapps/ROOT 文件夹，需要情况原本该文件夹中的内容，但注意需要保留其中的 WEB-INF 文件夹。
 
 ```shell
 cd  apache-tomcat-9.0.62/webapps/ROOT
@@ -175,7 +175,7 @@ cd dist
 scp -r  * ubuntu@101.43.55.140:~/apache-tomcat-9.0.62/webapps/ROOT
 ```
 
-### 启动关闭tomcat
+### 启动关闭 tomcat
 
 ```shell
 # 启动、关闭tomcat
@@ -390,22 +390,22 @@ public class test() {
 
 - **步骤一**：类管理注解：@Component、@Repository、@Service、@Controller。效果相同，区分只是为了更易读。
 
-    - 设置 id：@Component(value="idValue")，根据 java 注解的语法，`value=`可以省略：@Component("idValue")。
+  - 设置 id：@Component(value="idValue")，根据 java 注解的语法，`value=`可以省略：@Component("idValue")。
 
-      如果直接使用@Component()，默认 idValue 为当前类名，且首字母小写。
+    如果直接使用@Component()，默认 idValue 为当前类名，且首字母小写。
 
-    - 设置 class：无需设置，因为你在哪个类使用该注解，当然就是哪个类的 class 了！
+  - 设置 class：无需设置，因为你在哪个类使用该注解，当然就是哪个类的 class 了！
 
 - **步骤二**：注入数据注解
 
-    - bean 类型数据：
-        - @Autowired：@Autowired 只使用 byType 方式进行装配，若是同时存在相同 class 类型的 bean，则无法装配！不过在纯注解开发中，不会同时存在 class 类型的 bean。只有 xml
-          和注解方式同时使用时才会出现。示例见 OneNote。
-        - @Qualifier：使用@Qualifier 指定对应 bean 的 id 进行辅助精确选择！
-        - @Resource：@Resource 结合了@Autowired 和@Qualifier 的方法，不过他是默认以 byname 的方式实现！且不是 spring 提供的，而是 java 自带的注解。
-    - 基本类型和 String 类型：@Value
-    - 集合类型：只能用 XML 进行配置！
-    - 改变作用范围的：@Scope
+  - bean 类型数据：
+    - @Autowired：@Autowired 只使用 byType 方式进行装配，若是同时存在相同 class 类型的 bean，则无法装配！不过在纯注解开发中，不会同时存在 class 类型的 bean。只有 xml
+      和注解方式同时使用时才会出现。示例见 OneNote。
+    - @Qualifier：使用@Qualifier 指定对应 bean 的 id 进行辅助精确选择！
+    - @Resource：@Resource 结合了@Autowired 和@Qualifier 的方法，不过他是默认以 byname 的方式实现！且不是 spring 提供的，而是 java 自带的注解。
+  - 基本类型和 String 类型：@Value
+  - 集合类型：只能用 XML 进行配置！
+  - 改变作用范围的：@Scope
 
 ```java
 // School依赖于Person，因此Person必须要交给Spring管理。
@@ -555,13 +555,13 @@ SpringMVC 的配置文件主要需要配置三个东西：
 注解开发时，除了 Spring 的组件与依赖注入相关的注解，如@Component、@Autowired、@Value 等，上文都已经提及，还有 SpringMVC 的请求映射与参数的注解。
 
 - 请求映射
-    - @RequestMapping：基本注解，可通用，基于不同的请求类型有很多特定的子注解
-        - @GetMapping
-        - @PostMapping
-        - ...
+  - @RequestMapping：基本注解，可通用，基于不同的请求类型有很多特定的子注解
+    - @GetMapping
+    - @PostMapping
+    - ...
 - 参数注解
-    - @RequestParam
-    - @PathVariable
+  - @RequestParam
+  - @PathVariable
 - RestFul 注解：@ResponseBody、@RestController
 
 当使用 RestFul 风格的时候，可以直接用@ResponseBody 注解类或方法，此时由容器自动处理 Java 对象的转换并返回。容器内部通过 HttpMessageConverter 将方法返回的 Java 对象转换为 JSON
@@ -588,7 +588,7 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 - **service**：存放业务处理的接口及其实现类
 
-    - **Impl**：实现类放在 Impl 文件夹下
+  - **Impl**：实现类放在 Impl 文件夹下
 
   > BookService.java：接口，业务方法
   >
@@ -598,29 +598,29 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 - **resources**
 
-    - **mapper：**mybatis 的映射器文件，可以理解为对接口 BookMapper.java 的实现。原本我们使用 implements 来实现一个接口，但在此处我们使用 BookMapper.xml 来实现。
+  - **mapper：**mybatis 的映射器文件，可以理解为对接口 BookMapper.java 的实现。原本我们使用 implements 来实现一个接口，但在此处我们使用 BookMapper.xml 来实现。
 
-      > BookMapper.xml：实现对数据库的直接操作，如增删改查
+    > BookMapper.xml：实现对数据库的直接操作，如增删改查
 
-    - **properties**：把配置的属性和值抽离出来，在配置文件中可以通过 `${key}`来取出`value`。
+  - **properties**：把配置的属性和值抽离出来，在配置文件中可以通过 `${key}`来取出`value`。
 
-      > db.properties
-      >
-      > redis.properties
+    > db.properties
+    >
+    > redis.properties
 
-    - **spring**：存放 Spring、SpringMVC、mybatis、redis 等的配置文件
+  - **spring**：存放 Spring、SpringMVC、mybatis、redis 等的配置文件
 
-      > applicationContext.xml：用于导入\*properties，整合导入 spring-mybatis.xml、spring-redis.xml、spring-service.xml
-      >
-      > spring-mybatis.xml：mybatis 的核心配置文件
-      >
-      > spring-redis.xml：redis 的核心配置文件
-      >
-      > spring-service：用于开启 com.wang.service.impl 文件夹下的注解扫描
-      >
-      > springmvc-servlet.xml：Springmvc 的配置文件，① 开启 com.wang.controller 文件夹下的注解扫描 ② 启用 springmvc 的注解功能
+    > applicationContext.xml：用于导入\*properties，整合导入 spring-mybatis.xml、spring-redis.xml、spring-service.xml
+    >
+    > spring-mybatis.xml：mybatis 的核心配置文件
+    >
+    > spring-redis.xml：redis 的核心配置文件
+    >
+    > spring-service：用于开启 com.wang.service.impl 文件夹下的注解扫描
+    >
+    > springmvc-servlet.xml：Springmvc 的配置文件，① 开启 com.wang.controller 文件夹下的注解扫描 ② 启用 springmvc 的注解功能
 
-      此外，还有其余的配置：generatorConfig.xml、logback.xml
+    此外，还有其余的配置：generatorConfig.xml、logback.xml
 
 - **web/WEB-INF/web.xml**：web 项目的文件配置
 
@@ -632,7 +632,7 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 初次启动时，会出现找不到依赖的情况，进入 File - Project Structure - Artifacts，点击 `Put into Output Root`。
 
-![依赖导入](https://gitee.com/happytsing/figure-bed/raw/master/img/202204301704701.png)
+![依赖导入](./img/依赖导入.png)
 
 ## pom 依赖冲突
 
@@ -661,4 +661,4 @@ SpringMVC 的配置文件主要需要配置三个东西：
 
 - 项目部署，可以改为 docker 部署。
 - 若项目设计增删改，需要在 redis 中添加删除逻辑，否则缓存与数据库中内容不一致。
-- 目前部署tomcat之后，刷新之后404，因为vue router使用history路由模式的原因。
+- 目前部署 tomcat 之后，刷新之后 404，因为 vue router 使用 history 路由模式的原因。

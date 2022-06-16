@@ -3,4 +3,5 @@ import utils
 # utils.Load_Label(r'res/Label.json')
 # utils.analysis_evolution()
 
-utils.pic_evolution()
+# utils.pic_evolution()
+utils.get_config()

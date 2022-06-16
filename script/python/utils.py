@@ -411,3 +411,16 @@ def pic_evolution():
     plt.savefig('./test.jpg')
     # plt.savefig('./evolution.jpg')
     plt.show()
+
+def get_config():
+    with open("res/db.json") as f:
+        fj = json.load(f)
+        print(fj)
+    data = {}
+    for k,v in fj.items():
+        if v["Classification"]["Code"]=="Config":
+            data[k]=v
+
+
+    with open(r"./config.json", 'w') as f:
+        json.dump(data, f, ensure_ascii=False)

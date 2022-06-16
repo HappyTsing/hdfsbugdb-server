@@ -1,0 +1,548 @@
+{
+  "HDFS-16001": {
+    "Cause": "TestOfflineEditsViewer.testStored()读取FSEditLogOpCodes的负值失败。",
+    "Impact": "edits version太低,需要升级",
+    "Link": ["HDFS-15566"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "HA",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14821": {
+    "Cause": "在没有应用HDFS-14617补丁的情况下,可以加载一个在图像摘要部分列出了子部分的fsimage,因此fsimage sub-sections默认打开",
+    "Impact": "如果集群被升级到包含该功能的版本,那么在降级时,图像将无法加载",
+    "Link": ["HDFS-14617"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14726": {
+    "Cause": "HDFS-10519中引入了必填字段committedTxnId",
+    "Impact": "如果JN和NN不在同一版本上,出现不兼容内容问题,将遇到缺少字段异常",
+    "Link": ["HDFS-10519"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "HA",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15929": {
+    "Cause": "RAND_pseudo_bytes 在 OpenSSL 1.1.1 中已弃用",
+    "Impact": "编译错误",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Compatibility",
+      "Component": "LIBS",
+      "Consequence": "Build-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15186": {
+    "Cause": "ec算法问题,没有使用正确的参数调用",
+    "Impact": "在某些情况下,停用Datanode可能会生成全为 0 的奇偶校验块的内容",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "EC",
+      "Consequence": "Data-Corruption",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15910": {
+    "Cause": "将 bzero 替换为 explicit_bzero 以获得更好的安全性",
+    "Impact": "更好的安全性",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Security",
+      "Component": "LIBS",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": "一个配置相关的更新"
+  },
+  "HDFS-15719": {
+    "Cause": "JN套接字超时时间设置太短",
+    "Impact": "如果 NameNodes 尝试从 JournalNodes 下载一个大的编辑日志(比如几百MB),它可能会超过 10 秒。发生这种情况时,两个 NN 都会崩溃",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "HA",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "配置hadoop.http.idle_timeout.ms的默认值(Jetty断开空闲连接多长时间)由10000改为60000。"
+  },
+  "HDFS-15293": {
+    "Cause": "Checkpoint检查过于严格，当SNN上传的fsimage与之前的fsimage增量较小时，ANN会拒绝该图像",
+    "Impact": "导致ANN偶尔会丢失一张图像",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "HA",
+      "Consequence": "Data-Loss",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15948": {
+    "Cause": "传给Yetus的配置缺少",
+    "Impact": "test4tests seems to be broken for libhdfspp.",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Client",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15124": {
+    "Cause": "在初始化namenode时，`initAuditLoggers`将被调用，它将尝试调用`org.apache.hadoop.hdfs.server.namenode.top.TopAuditLogger`的默认构造函数，而该构造函数并没有默认构造。因此抛出了 InstantiationException",
+    "Impact": "配置参数`dfs.namenode.audit.loggers`允许`default`（这是默认值）和`org.apache.hadoop.hdfs.server.namenode.top.TopAuditLogger`。当使用`org.apache.hadoop.hdfs.server.namenode.top.TopAuditLogger`时，namenode将无法成功启动，因为从`org.apache.hadoop.hdfs.server.namenode.FSNamesystem.initAuditLoggers`抛出了`InstantiationException`。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "可以作为Config的例子"
+  },
+  "HDFS-14668": {
+    "Cause": "有 2 个带 kdc 的领域。一个领域用于人类用户 (USERS.COM.US),另一个领域用于服务主体(SERVICE.COM.US) 跨领域。在 krb5.conf 中，默认域设置为 SERVICE.COM.US",
+    "Impact": "USERS.COM.US领域内的用户不能将任何文件放到Fuse挂载的位置上。",
+    "Link": ["HADOOP-9747"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Security",
+      "Component": "Client",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14845": {
+    "Cause": "After HADOOP-16314, JWTRedirectAuthenticationHandler is enabled for httpfs in addition to KerberosDelegationTokenAuthenticationHandler, which is set by HttpFSAuthenticationFilter.",
+    "Impact": "在Trunk上通过httpfs访问HDFS时，出现 Request is a replay (34)错误 ",
+    "Link": ["HADOOP-16314"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Security",
+      "Component": "HttpFS",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "可以用于配置的例子，配置更新为httpfs.authentication.*配置变得废弃，而hadoop.http.authentication.*配置在HttpFS中被尊重。如果这两个配置都被设置了，那么httpfs.authentication.*的配置是有效的，以便于兼容。"
+  },
+  "HDFS-16303": {
+    "Cause": "HDFS Namenode 类“DatanodeAdminManager”负责停用数据节点,根据这个“hdfs-site”配置：dfs.namenode.decommission.max.concurrent.tracked.nodes(默认为100），Namenode 在任何给定时间只会主动跟踪最多 100 个数据节点以进行退役，以避免 Namenode 内存压力。",
+    "Impact": "如果在给定时间有超过 100 个数据节点被停用，存在一种边缘情况，该逻辑会阻止Namenode处理退役，既然该100个节点无法退役，那么其他节点也永远无法退役。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Datanode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "配置相关可以用"
+  },
+  "HDFS-16392": {
+    "Cause": "它的父类 FileSystemContractBaseTest 设置了 @Rule public Timeout globalTimeout",
+    "Impact": "即使TestHDFSFileSystemContract.testAppend设置了 @Test(timeout = 60000) ，也不会生效",
+    "Link": ["HDFS-16168"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Client",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-16129": {
+    "Cause": "如果配置中没有设置废弃的httpfs.authentication.signature.secret.file（例如：httpfs-site.xml），那么新的hadoop.http.authentication.signature.secret.file配置选项将不会被使用，它将默默地退回到随机秘密提供者。",
+    "Impact": "如果这两个配置选项都被设置了，那么HttpFSAuthenticationFilter将以一个不可能的文件路径（例如：${httpfs.config.dir}/httpfs-signature.secret）失败。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "HttpFS",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-16198": {
+    "Cause": "在安全模式下，'dfs.block.access.token.enable'应该被设置为'true'。在这种配置下，如果我们进行短路读取时访问令牌过期，SecretManager.InvalidToken异常可能被抛出。这并不重要，因为失败的读取会被重试。",
+    "Impact": "但它会导致ShortCircuitShm.Slot对象的泄漏。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "可以作为error handle 的例子。修复方法 Just free the slot when InvalidToken exception is thrown."
+  },
+  "HDFS-16111": {
+    "Cause": "原因是升级过程在数据节点的每个磁盘卷上添加了一些额外的磁盘存储，因此需要添加一个配置（dfs.datanode.round-robin-volume-choosing-policy.additional-available-space) 在 RoundRobinVolumeChoosingPolicy 中选择卷写入新块数据时保护磁盘空间。",
+    "Impact": "当我们将我们的 hadoop 集群从 hadoop 2.6.0 升级到 hadoop 3.2.2 时，我们在很多数据节点上遇到了失败的卷，这导致当时丢失了一些块。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Datanode",
+      "Consequence": "Data-Loss",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15849": {
+    "Cause": "目前ExpiredHeartbeats指标有默认类型，这使得它成为Type.GAUGE。它应该是Type.COUNTER，以便正确绘图。",
+    "Impact": "绘图失败",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15621": {
+    "Cause": "通常在每 1M 块的数据节点上使用 1GB 堆的规则。对于有很多块的节点，这可能意味着很多堆。",
+    "Impact": "Datanode DirectoryScanner 使用过多的内存",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Efficiency",
+      "Component": "Datanode",
+      "Consequence": "Performance",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15439": {
+    "Cause": "配置参数“dfs.mover.retry.max.attempts”是定义mover认为移动失败之前的最大重试次数。没有检查代码，因此此参数可以接受任何 int 值。",
+    "Impact": "从理论上讲，将这个值设置为<=0应该意味着根本没有重试。然而，如果你把这个值设置为负值。重试失败的检查条件将永远不会满足，因为if语句是if (retryCount.get() == retryMaxAttempts)。重试次数在失败后总是通过retryCount.incrementAndGet()来增加，但永远不会=retryMaxAttempts。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Disk-Balancer",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "配置相关"
+  },
+  "HDFS-15250": {
+    "Cause": "如果 dfs.client.use.datanode.hostname 为true，那么它将尝试通过主机名连接。如果无法解析主机名，则会从 `newConnectedPeer` 抛出 UnresolvedAddressException。",
+    "Impact": "UnresolvedAddressException 不是 IOException 的子类，所以 `nextTcpPeer` 根本不处理这个异常。这个未处理的异常可能会使系统崩溃。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Client",
+      "Consequence": "Runtime-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15438": {
+    "Cause": "因为while循环条件 item.getErrorCount() < getMaxError(item) 无法满足值为0的情况",
+    "Impact": "在HDFS磁盘平衡器中，配置参数 dfs.disk.balancer.max.disk.errors 是用来控制两个磁盘之间的特定移动在被放弃之前我们可以忽略的最大错误数的值。该参数可以接受>=0的值。而将该值设置为0应该意味着没有错误容忍。然而，设置该值为0将简单地不做块复制，即使没有磁盘错误发生，",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Disk-Balancer",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-16046": {
+    "Cause": "TestBalanceProcedureScheduler 和 TestDistCpProcedure 超时",
+    "Impact": "测试超时",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Disk-Balancer",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": "测试"
+  },
+  "HDFS-15148": {
+    "Cause": "在HDFS-13617, NameNode 可以配置为将其建立的 QOP 作为加密消息包装到块访问令牌中。稍后 DataNode 将使用此消息创建 SASL 连接。但是这个新行为应该只适用于新的辅助 NameNode 端口，而不是主端口（在 fs.defaultFS 中配置的那个）",
+    "Impact": "因为它可能会导致与现有的其他 SASL 相关配置（例如 dfs.data.transfer.protection）发生冲突的行为。由于此配置仅针对辅助端口引入，因此我们应将此新行为限制为不适用于主端口。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15624": {
+    "Cause": "HDFS-15025 添加新的存储类型 NVDIMM，更改 StorageType 枚举的 ordinal()。并且，通过 storageType 设置配额依赖于 ordinal()，因此升级后可能会导致配额设置无效。",
+    "Impact": "the setting of quota to be invalid after upgrade.",
+    "Link": ["HDFS-15025"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Compatibility",
+      "Component": "Datanode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15253": {
+    "Cause": "默认值 dfs.image.transfer.bandwidthPerSec 设置为 0，因此它可以在检查点期间将最大可用带宽用于 fsimage 传输。",
+    "Impact": "应该限制这个。在 dfs.namenode.name.dir 上传输大图像以及 fsimage 复制时，许多用户都经历了 namenode 故障转移。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": "配置"
+  },
+  "HDFS-15610": {
+    "Cause": "dfs.datanode.block.id.layout.upgrade.threads，默认为每个磁盘 12 个线程",
+    "Impact": "hardlink thread线程数太多，造成运行时缓慢",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Efficiency",
+      "Component": "Datanode",
+      "Consequence": "Performance",
+      "Code": "Config"
+    },
+    "comment": "可以作为配置不合适的例子"
+  },
+  "HDFS-15443": {
+    "Cause": "配置参数 dfs.datanode.max.transfer.threads 是指定用于将数据传入和传出 DN 的最大线程数。该参数十分重要，当被设置为非常小的值的时候会出现奇怪的失败",
+    "Impact": "应该为它添加检查代码，以防止用户不小心将值设置为不合理的值",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Usability",
+      "Component": "Datanode",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": "添加检查机制，对用户来说更方便使用。"
+  },
+  "HDFS-14859": {
+    "Cause": "当 dfs.namenode.safemode.min.datanodes 不为零时，防止对代价高昂的操作 getNumLiveDataNodes 进行不必要的评估",
+    "Impact": "每个块的 getNumLiveDataNodes 调用会引起性能问题",
+    "Link": ["HDFS-14171", "HDFS-14623"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Efficiency",
+      "Component": "Datanode",
+      "Consequence": "Performance",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-15201": {
+    "Cause": "MaxSnapshotID 上限是 16777215，SNAPSHOT_ID_BIT_WIDTH有些太低了。",
+    "Impact": "无法拍摄 HDFS 快照，并且 snapshotCounter 达到 MaxSnapshotID 限制",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "SnapShot",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14820": {
+    "Cause": "BlockReaderRemote#newBlockReader#BufferedOutputStream 默认的 8KB 缓冲区太大",
+    "Impact": "将 DFSClient 远程读取的输出流缓冲区大小从 8KB 减少到 512 字节。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Efficiency",
+      "Component": "Cache",
+      "Consequence": "Performance",
+      "Code": "Config"
+    },
+    "comment": "不错的例子"
+  },
+  "HDFS-14802": {
+    "Cause": "现在我们可以设置 fs.protected.directories 来防止用户删除重要目录。但是用户可以删除限制周围的目录。1.重命名目录并删除它们。2. 将目录移至垃圾箱，namenode 将删除它们。",
+    "Impact": "The feature of protect directories should be used in RenameOp",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Usability",
+      "Component": "Namenode",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14806": {
+    "Cause": "dfs.ha.tail-edits.qjm.rpc.max-txns配置默认为5000，超过时会出现失败",
+    "Impact": "Bootstrap standby may fail if used in-progress tailing",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Datanode",
+      "Consequence": "Runtime-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14730": {
+    "Cause": "删除未使用的配置 dfs.web.authentication.filter",
+    "Impact": "在HADOOP-16314之后，这个配置没有在任何地方使用，所以我建议废除它以避免误用。",
+    "Link": ["HADOOP-16314", "HDFS-14609", "HDFS-14609"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Usability",
+      "Component": "Client",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": "潜在问题的例子"
+  },
+  "HDFS-14494": {
+    "Cause": "HDFS-14270在跟踪级别引入了客户端和服务器 StateId 的日志记录。不幸的是，其中一个参数alignmentContext.getLastSeenStateId()持有对 FSEdits 的锁定，即使禁用跟踪日志记录级别也会调用该锁定",
+    "Impact": "即使禁用跟踪日志记录级别也会调用该锁定",
+    "Link": ["HDFS-14270"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14685": {
+    "Cause": "如果我们没有设置 dfs.namenode.audit.loggers（默认为 null），即使我们将 hadoop.caller.context.enabled 设置为 true，DefaultAuditLogger 也不会将 CallerConext 打印到 audit.log 中。",
+    "Impact": "DefaultAuditLogger 不打印 CallerContext",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Namenode",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14826": {
+    "Cause": "dfs.ha.zkfc.port 属性在 hdfs-default.xml 中重复",
+    "Impact": "“dfs.ha.zkfc.port”属性配置在 hdfs-default.xml 文件中重复，具有通用值（端口号 - 8019）和不同的描述。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "HA",
+      "Consequence": "Potential-Impact",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14416": {
+    "Cause": "HDFS-14327添加了 dfs.client.failover.resolver.useFQDN 并且它破坏了 TestHdfsConfigFields。",
+    "Impact": "需要修复字段 dfs.client.failover.resolver.useFQDN 的 TestHdfsConfigFields",
+    "Link": ["HDFS-14327"],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Client",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-16417": {
+    "Cause": "应该将StaticRouterRpcFairnessPolicyController更改为为并发 ns 分配额外的处理程序，以防它被配置。",
+    "Impact": "如果 配置了 dfs.federation.router.fairness.handler.count.concurrent，则 unassignedNS 为空并且 handlerCount % unassignedNS.size()将抛出 /0 异常。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "RBF",
+      "Consequence": "Runtime-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-16109": {
+    "Cause": "增加TestBootstrapStandby、TestFsVolumeList和TestDecommissionWithBackoffMonitor的超时时间",
+    "Impact": "单元测试超时",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Datanode",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14958": {
+    "Cause": "DFSConfigKeys.DFS_USE_DFS_NETWORK_TOPOLOGY_KEY默认为true，CommonConfigurationKeysPublic.NET_TOPOLOGY_IMPL_KEY被忽略，测试实际上使用默认的DFSNetworkTopology。",
+    "Impact": "TestBalancerWithNodeGroup是用来测试NetworkTopologyWithNodeGroup的，但它的配置并不正确。",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Availability",
+      "Component": "Client",
+      "Consequence": "Test-Error",
+      "Code": "Config"
+    },
+    "comment": ""
+  },
+  "HDFS-14940": {
+    "Cause": "应该不允许设置 balancer 最大网络带宽超过 1TB",
+    "Impact": "用setBalancerBandwidth命令设置平衡器的带宽，数值为[1048576000g/1048p/1e] 。 在HDFS块平衡过程中，用命令: hdfs dfsadmin -getBalancerBandwidth 检查数据节点使用的带宽，它将显示一些不同的值，而不是设置的值",
+    "Link": [],
+    "Classification": {
+      "Significance": "Vital",
+      "Quality": "Reliability",
+      "Component": "Disk-Balancer",
+      "Consequence": "Failure",
+      "Code": "Config"
+    },
+    "comment": ""
+  }
+}

@@ -203,9 +203,9 @@ Spring 主要有两个概念：控制反转 IoC 和切片
 import com.Person
 
 public Class School{
-private String address;
-private Person person;
-        }
+    private String address;
+  	private Person person;
+}
 ```
 
 同时，我们知道，一个 Java 类可以有多个构造函数：
@@ -219,10 +219,9 @@ public School(){}
 
 // 有参构造
 public School(String address,Person person){
-        this.address=address;
-        this.person=person;
-        }
-        }
+    this.address=address;
+    this.person=person;
+}
 ```
 
 首先我们谈论**有参构造**，此时可以说，School 这个类，依赖两个东西：
@@ -265,19 +264,18 @@ private Person person;
 public School(){}
 
 public String getAddress(){
-        return address;
-        }
+  	return address;
+}
 public void setCode(String address){
-        this.address=address;
-        }
+  	this.address=address;
+}
 
 public Person getPerson(){
-        return person;
-        }
+  	return person;
+}
 public void setPerson(Person person){
-        this.person=person;
-        }
-        }
+  	this.person=person;
+}
 ```
 
 此次，我们在实例化 School 的时候，即便采用无参构造来实例化，也可以安全的通过 set 来为它注入依赖：
@@ -373,7 +371,7 @@ public class test() {
 
 在使用注解之前，必须开启注解：
 
-```
+```xml
 <beans>
   <context:component-scan base-package="com.wang"/>
 </beans>
@@ -411,31 +409,32 @@ public class test() {
 // School依赖于Person，因此Person必须要交给Spring管理。
 @Component
 public Class Person{
-// 注入依赖
-@Value("leqing")
-private String name;
-@Value(18)
-private int age;
+    // 注入依赖
+    @Value("leqing")
+    private String name;
+    @Value(18)
+    private int age;
 
-public String printPerson(){
+    public String printPerson(){
         return name+age;
-        }
-        }
+    }
+}
+
 
 // School交给spring管理
 @Component
 public Class School{
 
-// 注入依赖
-@Value("电子科技大学")
-private String address;
-@Autowired
-private Person person;
+    // 注入依赖
+    @Value("电子科技大学")
+    private String address;
+    @Autowired
+    private Person person;
 
-public String printSchool(){
-        return person.printPerson()+address;
-        }
-        }
+    public String printSchool(){
+      	return person.printPerson()+address;
+    }
+}
 ```
 
 #### ② 获取类实例
@@ -645,7 +644,6 @@ SpringMVC 的配置文件主要需要配置三个东西：
 注意，spring 只能使用一次 property-placeholder：
 
 ```xml
-
 <context:property-placeholder location="classpath:properties/*.properties"/>
 ```
 
